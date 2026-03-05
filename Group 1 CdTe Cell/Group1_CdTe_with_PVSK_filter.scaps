@@ -1,21 +1,21 @@
 > SCAPS 3.3.12 ELIS-UGent: Version scaps3312.exe, dated 31-01-2026, 13:10:47
-> SCAPS All SCAPS Settings file, saved on 	15-02-2026 at 20:44:26
+> SCAPS All SCAPS Settings file, saved on 	04-03-2026 at 13:21:05
 > problem definition file loaded :
 > c:\Program Files (x86)\Scaps3312\def\CdTe_bottom_from_tandem.def
-> last saved: 	15-02-2026 at 20:40:45
+> last saved: 	04-03-2026 at 13:19:33
 > 
 
 
 >> begin of problem definition file
 
 > SCAPS 3.3.12 ELIS-UGent: Version scaps3312.exe, dated 31-01-2026, 13:10:47 Problem definition file
-> last saved by SCAPS: 	15-02-2026 at 20:44:27
+> last saved by SCAPS: 	04-03-2026 at 13:21:06
 > 
 > 
 > Temporary tandem cell definition file saved by script command:
 > math split_tandem
 > Based on definition file:
-> Tandem_PVSK_CdTe.def
+> Tandem_PVSK_CdTe.scaps
 > (the cell definition was possibly changed after loading this .def file!)
 > 
 convergence

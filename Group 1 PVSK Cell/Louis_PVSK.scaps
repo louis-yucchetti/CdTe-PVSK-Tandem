@@ -1,51 +1,31 @@
 > SCAPS 3.3.12 ELIS-UGent: Version scaps3312.exe, dated 31-01-2026, 13:10:47
-> SCAPS All SCAPS Settings file, saved on 	04-03-2026 at 13:09:25
+> SCAPS All SCAPS Settings file, saved on 	04-03-2026 at 12:42:22
 > problem definition file loaded :
-> c:\Users\louis\OneDrive\Desktop\Solar Cells Modelling kits\Tandem_PVSK_CdTe.scaps
-> last saved: 	04-03-2026 at 13:09:25
+> c:\Users\louis\OneDrive\Desktop\Solar Cells Modelling kits\Group 1 PVSK Cell\Louis_PVSK.scaps
+> last saved: 	04-03-2026 at 12:42:22
 > 
 
 
 >> begin of problem definition file
 
 > SCAPS 3.3.12 ELIS-UGent: Version scaps3312.exe, dated 31-01-2026, 13:10:47 Problem definition file
-> last saved by SCAPS: 	04-03-2026 at 13:09:25
+> last saved by SCAPS: 	04-03-2026 at 12:42:23
 > 
 > 
-> Based on "the CdTe-base case" by Markus Gloeckler, Colorado, summer 2003
-> See also: M. Gloeckler, A.Fahrenbruch and J.Sites, 
-> "Numerical modelling of CIGS and CdTe solar cells: setting the baseline",
-> Proc. 3rd World Conference on Photovoltaic Energy Conversion (Osaka, Japan, may 2003),
-> pp. 491-494, WCPEC-3, Osaka (2003).
+> This problem definition file has been distributed with all SCAPS versions since SCAPS 2.0, 1998
+> Here this old def file is saved in the format now used by SCAPS2.8 .
 > 
 > > end of problem definition file
 > 
 > > end of problem definition file
 > 
 > > end of problem definition file
-> SCAPS 3.3.12 ELIS-UGent: Version scaps3312.exe, dated 31-01-2026, 13:10:47
-> SCAPS Material parameters file, saved on 	04-03-2026 at 12:58:06
-> problem definition file loaded :
-> c:\Users\louis\OneDrive\Desktop\Solar Cells Modelling kits\Group 1 PVSK Cell\Louis_PVSK.scaps
-> last saved: 	04-03-2026 at 12:42:23
 > 
-> SCAPS 3.3.12 ELIS-UGent: Version scaps3312.exe, dated 31-01-2026, 13:10:47
-> SCAPS Material parameters file, saved on 	04-03-2026 at 12:58:17
-> problem definition file loaded :
-> c:\Users\louis\OneDrive\Desktop\Solar Cells Modelling kits\Group 1 PVSK Cell\Louis_PVSK.scaps
-> last saved: 	04-03-2026 at 12:42:23
+> > end of problem definition file
 > 
-> SCAPS 3.3.12 ELIS-UGent: Version scaps3312.exe, dated 31-01-2026, 13:10:47
-> SCAPS Material parameters file, saved on 	04-03-2026 at 12:58:36
-> problem definition file loaded :
-> c:\Users\louis\OneDrive\Desktop\Solar Cells Modelling kits\Group 1 PVSK Cell\Louis_PVSK.scaps
-> last saved: 	04-03-2026 at 12:42:23
+> > end of problem definition file
 > 
-> SCAPS 3.3.12 ELIS-UGent: Version scaps3312.exe, dated 31-01-2026, 13:10:47
-> SCAPS Material parameters file, saved on 	04-03-2026 at 12:58:48
-> problem definition file loaded :
-> c:\Users\louis\OneDrive\Desktop\Solar Cells Modelling kits\Group 1 PVSK Cell\Louis_PVSK.scaps
-> last saved: 	04-03-2026 at 12:42:23
+> > end of problem definition file
 > 
 convergence
 
@@ -67,14 +47,14 @@ widthgauss :  6.00e+00
 QE calculation mode:  1 (0: cst. # of photons, 1: cst. incident power)
 number of photons :  3.00e+22
 incident power :  1.00e+00
-recalculate mesh :  0 (0: fixed mesh, 1: adaptive mesh)
+recalculate mesh :  1 (0: fixed mesh, 1: adaptive mesh)
 maximum mesh changes per iteration step :  10
 maximum ratio between neighbouring points :  1.60e+00
 minimum ratio between neighbouring points :  1.05e+00
 generation limit :  1.00e+00 microA/cm2
 recombination limit :  1.00e-03 microA/cm2
-Mott-Schottky analysis epsilon of layer number :  0
-Mott-Schottky analysis epsilon of sheet side :  1	(left side = -1; right side = +1)
+Mott-Schottky analysis epsilon of layer number : -1
+Mott-Schottky analysis epsilon of sheet side :  0	(left side = -1; right side = +1)
 Mott-Schottky analysis number of points :  3	(3 or 5 as of december 2008)
 Mott-Schottky analysis polynomial order middle :  2	(1 or 2 as of december 2008)
 Mott-Schottky analysis polynomial order edges:  1	(1 or 2 as of december 2008)
@@ -96,197 +76,38 @@ Sp :  1.000e+05 [m/s]
 Tunneling to contact: 0
 Relative electron mass :   1.0000e+00
 Relative hole mass :   1.0000e+00
-optical filter : transmission
-wavelength independent: 0
-filterfile : 80%mirror.ftr
-
-layer
-
-name : CdTe
-d : 3.000e-06 [m]
-Tunneling in layer: 0
-Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
-Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
-composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
-v_th_n :	 1.000e+05	 1.000e+05	 1.000e+05	 1.000e+00	 1.000e+00	 1.000e+05	 1.000e+05	 0	 2	[m/s]
-v_th_p :	 1.000e+05	 1.000e+05	 1.000e+05	 1.000e+00	 1.000e+00	 1.000e+05	 1.000e+05	 0	 2	[m/s]
-eps :	     9.400000	     9.400000	     9.400000	     1.000000	     1.000000	     9.400000	     9.400000	 0	 2	[-]
-chi :	  3.900000	  3.900000	  3.900000	  1.000000	  1.000000	  3.900000	  3.900000	 0	 2	[eV]
-Eg :	  1.500000	  1.500000	  1.500000	  1.000000	  1.000000	  1.500000	  1.500000	 0	 2	[eV]
-Nc :	 8.000000e+23	 8.000000e+23	 8.000000e+23	 1.000000e+00	 1.000000e+00	 8.000000e+23	 8.000000e+23	 0	 2	[/m^3]
-Nv :	 1.800000e+25	 1.800000e+25	 1.800000e+25	 1.000000e+00	 1.000000e+00	 1.800000e+25	 1.800000e+25	 0	 2	[/m^3]
-mu_n :	 3.200000e-02	 3.200000e-02	 3.200000e-02	 1.000000e+00	 1.000000e+00	 3.200000e-02	 3.200000e-02	 0	 2	[m^2/Vs]
-mu_p :	 4.000000e-03	 4.000000e-03	 4.000000e-03	 1.000000e+00	 1.000000e+00	 4.000000e-03	 4.000000e-03	 0	 2	[m^2/Vs]
-K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
-c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
-c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
-Na(uniform) :	 2.000000e+20	 2.000000e+20	 2.000000e+20	 1.000000e+00	 1.000000e+00	 2.000000e+20	 2.000000e+20	 0	 2	[/m^3]
-Nd(uniform) :	 0.000000e+00	 0.000000e+00	 0.000000e+00	 1.000000e+00	 1.000000e+00	 0.000000e+00	 0.000000e+00	 0	 2	[/m^3]
-absorption grading :	  826.65	  826.65	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
-absorptionmodel pure A material (y=0) : from file
-absorptionfile pure A material (y=0) : CdTe-base.abs
-absorption pure B material (y=1), model : from file
-absorption pure B material (y=1), file : CdTe-base.abs
-
-srhrecombination
-
-type : neutral ( 1 level(s) )
-energy distribution : single
-Reference for defect energy :  0 ; 0 = above EV (SCAPS<2.7); 1 = above Ei; 2 = below EC
-Ekar :  0.1000 [eV]
-Nt(uniform) :	 2.000000e+21	 2.000000e+20	 2.000000e+20	 1.000000e+00	 1.000000e+00	 2.000000e+21	 2.000000e+21	 0	 2	[/m^3]
-profile : homogenous
-Lkar : 1.000e+00 [m]
-Nleft : 2.000e+21 [/m^3]
-Nright : 2.000e+21 [/m^3]
-leveltype : neutral	
-sigma_n : 1.000e-17	[m^2]
-sigma_p : 1.000e-19	[m^2]
-Et :   0.750	[eV]
-
-interface properties
-
-interfacename : 
-Intraband tunneling : 0 (0: no tunneling, 1: with tunneling)
-Relative electron mass :  1.00
-Relative hole mass :  1.00
-
-
-layer
-
-name : CdS
-d : 5.000e-08 [m]
-Tunneling in layer: 0
-Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
-Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
-composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
-v_th_n :	 1.000e+05	 1.000e+05	 1.000e+05	 1.000e+00	 1.000e+00	 1.000e+05	 1.000e+05	 0	 2	[m/s]
-v_th_p :	 1.000e+05	 1.000e+05	 1.000e+05	 1.000e+00	 1.000e+00	 1.000e+05	 1.000e+05	 0	 2	[m/s]
-eps :	    10.000000	    10.000000	    10.000000	     1.000000	     1.000000	    10.000000	    10.000000	 0	 2	[-]
-chi :	  4.000000	  4.000000	  4.000000	  1.000000	  1.000000	  4.000000	  4.000000	 0	 2	[eV]
-Eg :	  2.400000	  2.400000	  2.400000	  1.000000	  1.000000	  2.400000	  2.400000	 0	 2	[eV]
-Nc :	 2.200000e+24	 2.200000e+24	 2.200000e+24	 1.000000e+00	 1.000000e+00	 2.200000e+24	 2.200000e+24	 0	 2	[/m^3]
-Nv :	 1.800000e+25	 1.800000e+25	 1.800000e+25	 1.000000e+00	 1.000000e+00	 1.800000e+25	 1.800000e+25	 0	 2	[/m^3]
-mu_n :	 1.000000e-02	 1.000000e-02	 1.000000e-02	 1.000000e+00	 1.000000e+00	 1.000000e-02	 1.000000e-02	 0	 2	[m^2/Vs]
-mu_p :	 2.500000e-03	 2.500000e-03	 2.500000e-03	 1.000000e+00	 1.000000e+00	 2.500000e-03	 2.500000e-03	 0	 2	[m^2/Vs]
-K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
-c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
-c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
-Na(uniform) :	 0.000000e+00	 0.000000e+00	 0.000000e+00	 1.000000e+00	 1.000000e+00	 0.000000e+00	 0.000000e+00	 0	 2	[/m^3]
-Nd(uniform) :	 1.100000e+24	 1.100000e+24	 1.100000e+24	 1.000000e+00	 1.000000e+00	 1.100000e+24	 1.100000e+24	 0	 2	[/m^3]
-absorption grading :	  516.66	  516.66	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
-absorptionmodel pure A material (y=0) : from file
-absorptionfile pure A material (y=0) : CdS-base.abs
-absorption pure B material (y=1), model : from file
-absorption pure B material (y=1), file : CdS-base.abs
-
-srhrecombination
-
-type : acceptor ( 1 level(s) )
-energy distribution : single
-Reference for defect energy :  0 ; 0 = above EV (SCAPS<2.7); 1 = above Ei; 2 = below EC
-Ekar :  0.1000 [eV]
-Nt(uniform) :	 1.000000e+24	 1.000000e+24	 1.000000e+24	 1.000000e+00	 1.000000e+00	 1.000000e+24	 1.000000e+24	 0	 2	[/m^3]
-profile : homogenous
-Lkar : 1.000e+00 [m]
-Nleft : 1.000e+24 [/m^3]
-Nright : 1.000e+24 [/m^3]
-leveltype : 0/-	
-sigma_n : 1.000e-21	[m^2]
-sigma_p : 1.000e-16	[m^2]
-Et :   1.200	[eV]
-
-interface properties
-
-interfacename : 
-Intraband tunneling : 0 (0: no tunneling, 1: with tunneling)
-Relative electron mass :  1.00
-Relative hole mass :  1.00
-
-
-layer
-
-name : SnOx
-d : 1.000e-07 [m]
-Tunneling in layer: 0
-Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
-Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
-composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
-v_th_n :	 1.000e+05	 1.000e+05	 1.000e+05	 1.000e+00	 1.000e+00	 1.000e+05	 1.000e+05	 0	 2	[m/s]
-v_th_p :	 1.000e+05	 1.000e+05	 1.000e+05	 1.000e+00	 1.000e+00	 1.000e+05	 1.000e+05	 0	 2	[m/s]
-eps :	     9.000000	     9.000000	     9.000000	     1.000000	     1.000000	     9.000000	     9.000000	 0	 2	[-]
-chi :	  4.000000	  4.000000	  4.000000	  1.000000	  1.000000	  4.000000	  4.000000	 0	 2	[eV]
-Eg :	  3.600000	  3.600000	  3.600000	  1.000000	  1.000000	  3.600000	  3.600000	 0	 2	[eV]
-Nc :	 2.200000e+24	 2.200000e+24	 2.200000e+24	 1.000000e+00	 1.000000e+00	 2.200000e+24	 2.200000e+24	 0	 2	[/m^3]
-Nv :	 1.800000e+25	 1.800000e+25	 1.800000e+25	 1.000000e+00	 1.000000e+00	 1.800000e+25	 1.800000e+25	 0	 2	[/m^3]
-mu_n :	 1.000000e-02	 1.000000e-02	 1.000000e-02	 1.000000e+00	 1.000000e+00	 1.000000e-02	 1.000000e-02	 0	 2	[m^2/Vs]
-mu_p :	 2.500000e-03	 2.500000e-03	 2.500000e-03	 1.000000e+00	 1.000000e+00	 2.500000e-03	 2.500000e-03	 0	 2	[m^2/Vs]
-K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
-c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
-c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
-Na(uniform) :	 0.000000e+00	 0.000000e+00	 0.000000e+00	 1.000000e+00	 1.000000e+00	 0.000000e+00	 0.000000e+00	 0	 2	[/m^3]
-Nd(uniform) :	 1.000000e+23	 1.000000e+23	 1.000000e+23	 1.000000e+00	 1.000000e+00	 1.000000e+23	 1.000000e+23	 0	 2	[/m^3]
-absorption grading :	  344.44	  344.44	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
-absorptionmodel pure A material (y=0) : from file
-absorptionfile pure A material (y=0) : SnOx-base.abs
-absorption pure B material (y=1), model : from file
-absorption pure B material (y=1), file : SnOx-base.abs
-
-srhrecombination
-
-type : donor ( 1 level(s) )
-energy distribution : single
-Reference for defect energy :  0 ; 0 = above EV (SCAPS<2.7); 1 = above Ei; 2 = below EC
-Ekar :  0.1000 [eV]
-Nt(uniform) :	 1.000000e+21	 1.000000e+21	 1.000000e+21	 1.000000e+00	 1.000000e+00	 1.000000e+21	 1.000000e+21	 0	 2	[/m^3]
-profile : homogenous
-Lkar : 1.000e+00 [m]
-Nleft : 1.000e+21 [/m^3]
-Nright : 1.000e+21 [/m^3]
-leveltype : +/0	
-sigma_n : 1.000e-16	[m^2]
-sigma_p : 1.000e-19	[m^2]
-Et :   1.800	[eV]
-
-interface properties
-
-interfacename : 
-Intraband tunneling : 0 (0: no tunneling, 1: with tunneling)
-Relative electron mass :  1.00
-Relative hole mass :  1.00
-
 
 layer
 
 name : HTM (SpiroOMeTAD)
 d : 2.500e-07 [m]
 Tunneling in layer: 0
-Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 1	 0	[-]
-Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 1	 0	[-]
+Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
+Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
 composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
 v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 1	 0	[m/s]
-v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 1	 0	[m/s]
+v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
 eps :	     3.000000	    10.000000	    10.000000	    10.000000	    10.000000	     3.000000	     3.000000	 1	 0	[-]
 chi :	  2.200000	  4.500000	  1.000000	  1.000000	  1.000000	  2.200000	  2.200000	 1	 0	[eV]
-Eg :	  3.060000	  1.200000	  0.500000	  1.000000	  1.000000	  3.060000	  3.060000	 1	 0	[eV]
+Eg :	  3.060000	  3.000000	  0.500000	  1.000000	  1.000000	  3.060000	  3.060000	 1	 0	[eV]
 Nc :	 2.800000e+25	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 2.800000e+25	 2.800000e+25	 1	 0	[/m^3]
 Nv :	 2.200000e+25	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 2.200000e+25	 2.200000e+25	 1	 0	[/m^3]
 mu_n :	 1.000000e-08	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 1.000000e-08	 1.000000e-08	 1	 0	[m^2/Vs]
 mu_p :	 2.000000e-08	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 2.000000e-08	 2.000000e-08	 1	 0	[m^2/Vs]
-K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^3/s]
-c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^6/s]
-c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^6/s]
+K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
+c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
+c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
 Na(uniform) :	 1.000000e+24	 1.000000e+24	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+24	 1.000000e+24	 0	 2	[/m^3]
 Nd(uniform) :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 2	[/m^3]
-absorption grading :	  405.22	 1033.31	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
+absorption grading :	  405.22	  413.33	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
 absorptionmodel pure A material (y=0) : from file
 absorptionfile pure A material (y=0) : Spiro.abs
 absorption pure B material (y=1), model : coefficients A and B (line inserted for compatibility with SCAPS until 3.3.06)
-pure B material (y=1), A : 9.129e+06 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
+pure B material (y=1), A : 1.000e+07 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
 pure B material (y=1), B : 0.000e+00 [sqrt(eV)/m] (line inserted for compatibility with SCAPS until 3.3.06)
 absorptionmodel pure B material (y=1) : from model
 absorption model B, model : sqrt(hv-Eg) law (SCAPS traditional)
-absorption model B, value of parameter 1 :   1.000000e+05
+absorption model B, value of parameter 1 :   1.732051e+05
 absorption model B, value of parameter 2 :   0.000000e+00
 
 srhrecombination
@@ -315,35 +136,92 @@ Relative hole mass :  1.00
 
 layer
 
+name : IDL2 (DL)
+d : 1.000e-09 [m]
+Tunneling in layer: 0
+Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
+Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
+composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
+v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
+v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
+eps :	     8.200000	    10.000000	    10.000000	    10.000000	    10.000000	     8.200000	     8.200000	 1	 0	[-]
+chi :	  4.170000	  4.500000	  1.000000	  1.000000	  1.000000	  4.170000	  4.170000	 1	 0	[eV]
+Eg :	  1.410000	  1.620000	  0.500000	  1.000000	  1.000000	  1.410000	  1.410000	 1	 0	[eV]
+Nc :	 1.100000e+24	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.100000e+24	 1.100000e+24	 1	 0	[/m^3]
+Nv :	 1.100000e+24	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.100000e+24	 1.100000e+24	 1	 0	[/m^3]
+mu_n :	 1.600000e-04	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 1.600000e-04	 1.600000e-04	 1	 0	[m^2/Vs]
+mu_p :	 1.600000e-04	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 1.600000e-04	 1.600000e-04	 1	 0	[m^2/Vs]
+K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
+c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
+c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
+Na(uniform) :	 1.000000e+18	 1.000000e+18	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+18	 1.000000e+18	 0	 2	[/m^3]
+Nd(uniform) :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 2	[/m^3]
+absorption grading :	  879.42	  765.42	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
+absorptionmodel pure A material (y=0) : from file
+absorptionfile pure A material (y=0) : perovskite (Cs-FA-MA)(5-80-15)Pb(I-Br)_3(80-20).abs
+absorption pure B material (y=1), model : coefficients A and B (line inserted for compatibility with SCAPS until 3.3.06)
+pure B material (y=1), A : 1.000e+07 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
+pure B material (y=1), B : 0.000e+00 [sqrt(eV)/m] (line inserted for compatibility with SCAPS until 3.3.06)
+absorptionmodel pure B material (y=1) : from model
+absorption model B, model : sqrt(hv-Eg) law (SCAPS traditional)
+absorption model B, value of parameter 1 :   1.272792e+05
+absorption model B, value of parameter 2 :   0.000000e+00
+
+srhrecombination
+
+type : neutral ( 1 level(s) )
+energy distribution : single
+Reference for defect energy :  0 ; 0 = above EV (SCAPS<2.7); 1 = above Ei; 2 = below EC
+Ekar :  0.1000 [eV]
+Nt(uniform) :	 1.000000e+21	 1.000000e+20	 1.000000e+20	 1.000000e+00	 1.000000e+00	 1.000000e+21	 1.000000e+21	 0	 2	[/m^3]
+profile : homogenous
+Lkar : 1.000e+00 [m]
+Nleft : 1.000e+21 [/m^3]
+Nright : 1.000e+21 [/m^3]
+leveltype : neutral	
+sigma_n : 2.000e-18	[m^2]
+sigma_p : 2.000e-18	[m^2]
+Et :   0.810	[eV]
+
+interface properties
+
+interfacename : 
+Intraband tunneling : 0 (0: no tunneling, 1: with tunneling)
+Relative electron mass :  1.00
+Relative hole mass :  1.00
+
+
+layer
+
 name : (Cs-FA-MA)(4-81-15)Pb(I-Br)_3(83-17)
 d : 5.000e-07 [m]
 Tunneling in layer: 0
-Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 1	 0	[-]
-Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 1	 0	[-]
+Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
+Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
 composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
-v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 1	 0	[m/s]
-v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 1	 0	[m/s]
+v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
+v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
 eps :	    10.000000	    10.000000	    10.000000	    10.000000	    10.000000	    10.000000	    10.000000	 1	 0	[-]
 chi :	  3.900000	  4.500000	  1.000000	  1.000000	  1.000000	  3.900000	  3.900000	 1	 0	[eV]
-Eg :	  1.600000	  1.200000	  0.500000	  1.000000	  1.000000	  1.600000	  1.600000	 1	 0	[eV]
+Eg :	  1.600000	  1.620000	  0.500000	  1.000000	  1.000000	  1.600000	  1.600000	 1	 0	[eV]
 Nc :	 2.200000e+24	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 2.200000e+24	 2.200000e+24	 1	 0	[/m^3]
 Nv :	 1.800000e+24	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.800000e+24	 1.800000e+24	 1	 0	[/m^3]
 mu_n :	 1.660000e-04	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 1.660000e-04	 1.660000e-04	 1	 0	[m^2/Vs]
 mu_p :	 1.600000e-04	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 1.600000e-04	 1.600000e-04	 1	 0	[m^2/Vs]
-K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^3/s]
-c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^6/s]
-c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^6/s]
+K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
+c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
+c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
 Na(uniform) :	 1.000000e+15	 1.000000e+15	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+15	 1.000000e+15	 0	 2	[/m^3]
 Nd(uniform) :	 1.000000e+15	 1.000000e+15	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+15	 1.000000e+15	 0	 2	[/m^3]
-absorption grading :	  774.99	 1033.31	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
+absorption grading :	  774.99	  765.42	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
 absorptionmodel pure A material (y=0) : from file
 absorptionfile pure A material (y=0) : perovskite (Cs-FA-MA)(5-80-15)Pb(I-Br)_3(80-20).abs
 absorption pure B material (y=1), model : coefficients A and B (line inserted for compatibility with SCAPS until 3.3.06)
-pure B material (y=1), A : 9.129e+06 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
+pure B material (y=1), A : 1.000e+07 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
 pure B material (y=1), B : 0.000e+00 [sqrt(eV)/m] (line inserted for compatibility with SCAPS until 3.3.06)
 absorptionmodel pure B material (y=1) : from model
 absorption model B, model : sqrt(hv-Eg) law (SCAPS traditional)
-absorption model B, value of parameter 1 :   1.000000e+05
+absorption model B, value of parameter 1 :   1.272792e+05
 absorption model B, value of parameter 2 :   0.000000e+00
 
 srhrecombination
@@ -372,35 +250,92 @@ Relative hole mass :  1.00
 
 layer
 
+name : IDL1 (DL)
+d : 1.000e-09 [m]
+Tunneling in layer: 0
+Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
+Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
+composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
+v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
+v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
+eps :	     8.200000	    10.000000	    10.000000	    10.000000	    10.000000	     8.200000	     8.200000	 1	 0	[-]
+chi :	  4.170000	  4.500000	  1.000000	  1.000000	  1.000000	  4.170000	  4.170000	 1	 0	[eV]
+Eg :	  1.410000	  1.620000	  0.500000	  1.000000	  1.000000	  1.410000	  1.410000	 1	 0	[eV]
+Nc :	 1.000000e+24	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+24	 1.000000e+24	 1	 0	[/m^3]
+Nv :	 1.000000e+24	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+24	 1.000000e+24	 1	 0	[/m^3]
+mu_n :	 1.600000e-04	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 1.600000e-04	 1.600000e-04	 1	 0	[m^2/Vs]
+mu_p :	 1.600000e-04	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 1.600000e-04	 1.600000e-04	 1	 0	[m^2/Vs]
+K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
+c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
+c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
+Na(uniform) :	 1.000000e+18	 1.000000e+18	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+18	 1.000000e+18	 0	 2	[/m^3]
+Nd(uniform) :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 2	[/m^3]
+absorption grading :	  879.42	  765.42	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
+absorptionmodel pure A material (y=0) : from file
+absorptionfile pure A material (y=0) : perovskite (Cs-FA-MA)(5-80-15)Pb(I-Br)_3(80-20).abs
+absorption pure B material (y=1), model : coefficients A and B (line inserted for compatibility with SCAPS until 3.3.06)
+pure B material (y=1), A : 1.000e+07 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
+pure B material (y=1), B : 0.000e+00 [sqrt(eV)/m] (line inserted for compatibility with SCAPS until 3.3.06)
+absorptionmodel pure B material (y=1) : from model
+absorption model B, model : sqrt(hv-Eg) law (SCAPS traditional)
+absorption model B, value of parameter 1 :   1.272792e+05
+absorption model B, value of parameter 2 :   0.000000e+00
+
+srhrecombination
+
+type : neutral ( 1 level(s) )
+energy distribution : single
+Reference for defect energy :  0 ; 0 = above EV (SCAPS<2.7); 1 = above Ei; 2 = below EC
+Ekar :  0.1000 [eV]
+Nt(uniform) :	 1.000000e+21	 1.000000e+20	 1.000000e+20	 1.000000e+00	 1.000000e+00	 1.000000e+21	 1.000000e+21	 0	 2	[/m^3]
+profile : homogenous
+Lkar : 1.000e+00 [m]
+Nleft : 1.000e+21 [/m^3]
+Nright : 1.000e+21 [/m^3]
+leveltype : neutral	
+sigma_n : 2.000e-18	[m^2]
+sigma_p : 2.000e-18	[m^2]
+Et :   0.810	[eV]
+
+interface properties
+
+interfacename : 
+Intraband tunneling : 0 (0: no tunneling, 1: with tunneling)
+Relative electron mass :  1.00
+Relative hole mass :  1.00
+
+
+layer
+
 name : BL (SnO2)
 d : 1.000e-07 [m]
 Tunneling in layer: 0
-Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 1	 0	[-]
-Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 1	 0	[-]
+Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
+Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
 composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
-v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 1	 0	[m/s]
-v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 1	 0	[m/s]
+v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
+v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
 eps :	     9.000000	    10.000000	    10.000000	    10.000000	    10.000000	     9.000000	     9.000000	 1	 0	[-]
 chi :	  4.000000	  4.500000	  1.000000	  1.000000	  1.000000	  4.000000	  4.000000	 1	 0	[eV]
-Eg :	  3.500000	  1.200000	  0.500000	  1.000000	  1.000000	  3.500000	  3.500000	 1	 0	[eV]
+Eg :	  3.500000	  3.200000	  0.500000	  1.000000	  1.000000	  3.500000	  3.500000	 1	 0	[eV]
 Nc :	 2.200000e+23	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 2.200000e+23	 2.200000e+23	 1	 0	[/m^3]
 Nv :	 2.200000e+23	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 2.200000e+23	 2.200000e+23	 1	 0	[/m^3]
 mu_n :	 2.000000e-03	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 2.000000e-03	 2.000000e-03	 1	 0	[m^2/Vs]
 mu_p :	 1.000000e-03	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 1.000000e-03	 1.000000e-03	 1	 0	[m^2/Vs]
-K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^3/s]
-c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^6/s]
-c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^6/s]
+K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
+c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
+c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
 Na(uniform) :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 2	[/m^3]
 Nd(uniform) :	 1.000000e+24	 1.000000e+24	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+24	 1.000000e+24	 0	 2	[/m^3]
-absorption grading :	  354.28	 1033.31	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
+absorption grading :	  354.28	  387.49	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
 absorptionmodel pure A material (y=0) : from file
 absorptionfile pure A material (y=0) : SnOx-base.abs
 absorption pure B material (y=1), model : coefficients A and B (line inserted for compatibility with SCAPS until 3.3.06)
-pure B material (y=1), A : 9.129e+06 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
+pure B material (y=1), A : 1.000e+07 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
 pure B material (y=1), B : 0.000e+00 [sqrt(eV)/m] (line inserted for compatibility with SCAPS until 3.3.06)
 absorptionmodel pure B material (y=1) : from model
 absorption model B, model : sqrt(hv-Eg) law (SCAPS traditional)
-absorption model B, value of parameter 1 :   1.000000e+05
+absorption model B, value of parameter 1 :   1.788854e+05
 absorption model B, value of parameter 2 :   0.000000e+00
 
 srhrecombination
@@ -432,32 +367,32 @@ layer
 name : ITO
 d : 1.000e-07 [m]
 Tunneling in layer: 0
-Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 1	 0	[-]
-Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 1	 0	[-]
+Relative electron mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
+Relative hole mass :	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	  1.0000e+00	 0	 0	[-]
 composition grading :	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	  0.00000	 0	 1	[-]
-v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 1	 0	[m/s]
-v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 1	 0	[m/s]
+v_th_n :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
+v_th_p :	 1.000e+05	 1.000e+05	 1.000e+01	 1.000e+01	 1.000e+01	 1.000e+05	 1.000e+05	 0	 0	[m/s]
 eps :	    10.000000	    10.000000	    10.000000	    10.000000	    10.000000	    10.000000	    10.000000	 1	 0	[-]
 chi :	  3.600000	  4.500000	  1.000000	  1.000000	  1.000000	  3.600000	  3.600000	 1	 0	[eV]
-Eg :	  3.720000	  1.200000	  0.500000	  1.000000	  1.000000	  3.720000	  3.720000	 1	 0	[eV]
+Eg :	  3.720000	  3.500000	  0.500000	  1.000000	  1.000000	  3.720000	  3.720000	 1	 0	[eV]
 Nc :	 4.000000e+25	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 4.000000e+25	 4.000000e+25	 1	 0	[/m^3]
 Nv :	 1.000000e+24	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+24	 1.000000e+24	 1	 0	[/m^3]
 mu_n :	 3.000000e-03	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 3.000000e-03	 3.000000e-03	 1	 0	[m^2/Vs]
 mu_p :	 5.000000e-04	 5.000000e-03	 1.000000e-03	 1.000000e+00	 1.000000e+00	 5.000000e-04	 5.000000e-04	 1	 0	[m^2/Vs]
-K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^3/s]
-c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^6/s]
-c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 1	 0	[m^6/s]
+K_rad :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^3/s]
+c_n_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
+c_p_auger :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 0	[m^6/s]
 Na(uniform) :	 0.000000e+00	 0.000000e+00	 1.000000e+01	 1.000000e+01	 1.000000e+01	 0.000000e+00	 0.000000e+00	 0	 2	[/m^3]
 Nd(uniform) :	 1.000000e+25	 1.000000e+25	 1.000000e+01	 1.000000e+01	 1.000000e+01	 1.000000e+25	 1.000000e+25	 0	 2	[/m^3]
-absorption grading :	  333.33	 1033.31	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
+absorption grading :	  333.33	  354.28	  250.00	  250.00	    0.00	    1.20	    1.20	 7	 0	[nm]
 absorptionmodel pure A material (y=0) : from file
 absorptionfile pure A material (y=0) : SnOx-base.abs
 absorption pure B material (y=1), model : coefficients A and B (line inserted for compatibility with SCAPS until 3.3.06)
-pure B material (y=1), A : 9.129e+06 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
+pure B material (y=1), A : 1.000e+07 [/(m*sqrt(eV))] (line inserted for compatibility with SCAPS until 3.3.06)
 pure B material (y=1), B : 0.000e+00 [sqrt(eV)/m] (line inserted for compatibility with SCAPS until 3.3.06)
 absorptionmodel pure B material (y=1) : from model
 absorption model B, model : sqrt(hv-Eg) law (SCAPS traditional)
-absorption model B, value of parameter 1 :   1.000000e+05
+absorption model B, value of parameter 1 :   1.870829e+05
 absorption model B, value of parameter 2 :   0.000000e+00
 
 srhrecombination
@@ -486,9 +421,6 @@ Sp : 1.000e+05 [m/s]
 Tunneling to contact: 0
 Relative electron mass :   1.0000e+00
 Relative hole mass :   1.0000e+00
-optical filter : reflection
-wavelength independent: 1
-filter value: 0.00000000e+00
 
 working point
 
@@ -530,8 +462,8 @@ Secondworkpoint transmission :   100.0000 %
 Secondworkpoint attenuation :   100.0000 %
 pause :  0
 IV_startV :     0.0000 V
-IV_stopV :     3.0000 V
-IV_points : 301
+IV_stopV :     1.5000 V
+IV_points : 151
 IV_increment :     0.010000 V
 IV_calculate :  1
 stop after Voc :  1
@@ -546,11 +478,11 @@ Cf_stopf :    1.000e+06 Hz
 Cf_total points :  21
 Cf_points per decade :   5
 Cf_calculate :  0
-QE_startlambda :   250.00 nm
+QE_startlambda :   200.00 nm
 QE_stoplambda :   900.00 nm
-QE_points : 131
+QE_points : 141
 QE_increment :     5.00 nm
-QE_calculate :  1
+QE_calculate :  0
 
 >> end of action list file
 
