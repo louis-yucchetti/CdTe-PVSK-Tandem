@@ -440,6 +440,43 @@ def add_reference_vertical(ax: plt.Axes, target_c: float) -> None:
     ax.axvline(target_c, color="black", lw=1.0, ls="--", alpha=0.5)
 
 
+def plot_single_cell_metrics(
+    out_path: Path,
+    rows: Sequence[Dict[str, float | str]],
+    title: str,
+    line_color: str,
+    label: str,
+    target_temp_c: float,
+) -> None:
+    temperatures_k = np.asarray([float(row["temperature_k"]) for row in rows], dtype=float)
+    x_celsius = temperature_to_celsius(temperatures_k)
+
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 6.4), sharex=True)
+    for ax, metric_name in zip(axes.flat, METRIC_META.keys()):
+        values = np.asarray([float(row[metric_name]) for row in rows], dtype=float)
+        ax.plot(x_celsius, values, color=line_color, lw=2.1, label=label)
+        ax.scatter(
+            [target_temp_c],
+            [np.interp(target_temp_c, x_celsius, values)],
+            s=34,
+            color=line_color,
+            edgecolor="white",
+            linewidth=0.7,
+            zorder=3,
+        )
+        add_reference_vertical(ax, target_temp_c)
+        ax.set_ylabel(METRIC_META[metric_name]["label"])
+        style_axis(ax)
+
+    axes[1, 0].set_xlabel("Temperature (°C)")
+    axes[1, 1].set_xlabel("Temperature (°C)")
+    axes[0, 0].legend(loc="best")
+    fig.suptitle(title, y=0.99)
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=600)
+    plt.close(fig)
+
+
 def plot_subcell_metrics(
     out_path: Path,
     top_rows: Sequence[Dict[str, float | str]],
@@ -448,33 +485,88 @@ def plot_subcell_metrics(
 ) -> None:
     temperatures_k = np.asarray([float(row["temperature_k"]) for row in top_rows], dtype=float)
     x_celsius = temperature_to_celsius(temperatures_k)
-    series_map = {
-        "PVSK top": {"rows": top_rows, "color": "#1f4e79", "ls": "-"},
-        "CdTe filtered bottom": {"rows": bottom_rows, "color": "#7a3e00", "ls": "-"},
-    }
+    baseline_k = float(np.min(temperatures_k))
 
     fig, axes = plt.subplots(2, 2, figsize=(9.2, 6.4), sharex=True)
     for ax, metric_name in zip(axes.flat, METRIC_META.keys()):
-        for label, meta in series_map.items():
-            values = np.asarray([float(row[metric_name]) for row in meta["rows"]], dtype=float)
-            ax.plot(x_celsius, values, color=meta["color"], lw=2.0, ls=meta["ls"], label=label)
-            ax.scatter(
-                [target_temp_c],
-                [np.interp(target_temp_c, x_celsius, values)],
-                s=30,
-                color=meta["color"],
-                edgecolor="white",
-                linewidth=0.7,
-                zorder=3,
-            )
+        top_values = np.asarray([float(row[metric_name]) for row in top_rows], dtype=float)
+        bottom_values = np.asarray([float(row[metric_name]) for row in bottom_rows], dtype=float)
+        top_baseline = interpolate_series(temperatures_k, top_values, baseline_k)
+        bottom_baseline = interpolate_series(temperatures_k, bottom_values, baseline_k)
+        top_rel = 100.0 * top_values / top_baseline
+        bottom_rel = 100.0 * bottom_values / bottom_baseline
+
+        ax.plot(x_celsius, top_rel, color="#1f4e79", lw=2.0, label="PVSK top")
+        ax.plot(x_celsius, bottom_rel, color="#7a3e00", lw=2.0, label="CdTe filtered bottom")
+        ax.scatter(
+            [target_temp_c],
+            [np.interp(target_temp_c, x_celsius, top_rel)],
+            s=30,
+            color="#1f4e79",
+            edgecolor="white",
+            linewidth=0.7,
+            zorder=3,
+        )
+        ax.scatter(
+            [target_temp_c],
+            [np.interp(target_temp_c, x_celsius, bottom_rel)],
+            s=30,
+            color="#7a3e00",
+            edgecolor="white",
+            linewidth=0.7,
+            zorder=3,
+        )
         add_reference_vertical(ax, target_temp_c)
-        ax.set_ylabel(METRIC_META[metric_name]["label"])
+        ax.set_ylabel(f"{METRIC_META[metric_name]['label']} rel. to 300 K (%)")
         style_axis(ax)
 
     axes[1, 0].set_xlabel("Temperature (°C)")
     axes[1, 1].set_xlabel("Temperature (°C)")
     axes[0, 0].legend(loc="best")
-    fig.suptitle("Sub-cell Metrics vs Temperature", y=0.99)
+    fig.suptitle("Sub-cell Normalized Thermal Drift", y=0.99)
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=600)
+    plt.close(fig)
+
+
+def plot_subcell_metric_separation(
+    out_path: Path,
+    top_rows: Sequence[Dict[str, float | str]],
+    bottom_rows: Sequence[Dict[str, float | str]],
+    target_temp_c: float,
+) -> None:
+    temperatures_k = np.asarray([float(row["temperature_k"]) for row in top_rows], dtype=float)
+    x_celsius = temperature_to_celsius(temperatures_k)
+    separation_meta = {
+        "voc": {"label": "Voc top - bottom (V)"},
+        "jsc": {"label": "Jsc top - bottom (mA cm$^{-2}$)"},
+        "ff": {"label": "FF top - bottom (%)"},
+        "eta": {"label": "Efficiency top - bottom (%)"},
+    }
+
+    fig, axes = plt.subplots(2, 2, figsize=(9.2, 6.4), sharex=True)
+    for ax, metric_name in zip(axes.flat, separation_meta.keys()):
+        top_values = np.asarray([float(row[metric_name]) for row in top_rows], dtype=float)
+        bottom_values = np.asarray([float(row[metric_name]) for row in bottom_rows], dtype=float)
+        gap = top_values - bottom_values
+        ax.plot(x_celsius, gap, color="#0f7f54", lw=2.1, label="Top - bottom")
+        ax.scatter(
+            [target_temp_c],
+            [np.interp(target_temp_c, x_celsius, gap)],
+            s=34,
+            color="#0f7f54",
+            edgecolor="white",
+            linewidth=0.7,
+            zorder=3,
+        )
+        add_reference_vertical(ax, target_temp_c)
+        ax.set_ylabel(separation_meta[metric_name]["label"])
+        style_axis(ax)
+
+    axes[1, 0].set_xlabel("Temperature (°C)")
+    axes[1, 1].set_xlabel("Temperature (°C)")
+    axes[0, 0].legend(loc="best")
+    fig.suptitle("Sub-cell Metric Separation", y=0.99)
     fig.tight_layout()
     fig.savefig(out_path, dpi=600)
     plt.close(fig)
@@ -897,7 +989,34 @@ def main() -> None:
     save_csv(csv_dir / "mismatch_drift_summary.csv", mismatch_summary_rows, mismatch_fieldnames)
     save_csv(csv_dir / "mismatch_drift_vs_temperature.csv", drift_rows, drift_fieldnames)
 
-    plot_subcell_metrics(figures_dir / "subcell_metrics_vs_temperature.png", top_rows, bottom_rows, args.target_temp_c)
+    plot_single_cell_metrics(
+        figures_dir / "pvsk_metrics_vs_temperature.png",
+        top_rows,
+        "PVSK Top-Cell Metrics vs Temperature",
+        "#1f4e79",
+        "PVSK top",
+        args.target_temp_c,
+    )
+    plot_single_cell_metrics(
+        figures_dir / "cdte_filtered_metrics_vs_temperature.png",
+        bottom_rows,
+        "Filtered CdTe Bottom-Cell Metrics vs Temperature",
+        "#7a3e00",
+        "CdTe filtered bottom",
+        args.target_temp_c,
+    )
+    plot_subcell_metrics(
+        figures_dir / "subcell_metrics_vs_temperature.png",
+        top_rows,
+        bottom_rows,
+        args.target_temp_c,
+    )
+    plot_subcell_metric_separation(
+        figures_dir / "subcell_metric_separation_vs_temperature.png",
+        top_rows,
+        bottom_rows,
+        args.target_temp_c,
+    )
     plot_tandem_metrics(figures_dir / "tandem_metrics_vs_temperature.png", tandem_rows, args.target_temp_c)
     plot_voc_physics(figures_dir / "voc_physics_vs_temperature.png", top_rows, bottom_rows, args.target_temp_c)
     plot_mismatch_drift(
