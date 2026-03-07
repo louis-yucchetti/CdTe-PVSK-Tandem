@@ -41,6 +41,19 @@ COEFFICIENT_META = {
     "pmax": {"symbol": "gamma", "absolute_scale": 1.0, "absolute_unit": "mW/cm2/K"},
 }
 
+PILLAR5_METRICS = [
+    {"metric": "voc", "label": "Voc", "unit": "V"},
+    {"metric": "jsc", "label": "Jsc", "unit": "mA/cm2"},
+    {"metric": "ff", "label": "FF", "unit": "%"},
+    {"metric": "eta", "label": "PCE", "unit": "%"},
+]
+
+PILLAR5_ARCHITECTURE_LABELS = {
+    "PVSK_top": "PVSK Top Cell",
+    "Tandem_2T": "2T Tandem",
+    "Tandem_4T": "4T Tandem (equivalent)",
+}
+
 RECOMB_COLUMNS = [
     "j_total_rec(mA/cm2)",
     "j_total_gen(mA/cm2)",
@@ -482,6 +495,136 @@ def build_mismatch_summary_rows(
             "trend": "widens" if ratio_target > ratio_baseline else "closes",
         },
     ]
+
+
+def build_pillar5_matrix_rows(
+    summary_rows: Sequence[Dict[str, float | str]],
+    mismatch_summary_rows: Sequence[Dict[str, float | str]],
+) -> List[Dict[str, float | str]]:
+    summary_lookup = {
+        (str(row["cell"]), str(row["metric"])): row
+        for row in summary_rows
+    }
+    mismatch_ratio_row = next(
+        row for row in mismatch_summary_rows if row["metric"] == "Jtop_over_Jbottom"
+    )
+
+    matrix_rows: List[Dict[str, float | str]] = []
+    for architecture in ["PVSK_top", "Tandem_2T", "Tandem_4T"]:
+        for metric_meta in PILLAR5_METRICS:
+            summary_row = summary_lookup[(architecture, metric_meta["metric"])]
+            matrix_rows.append(
+                {
+                    "architecture": architecture,
+                    "architecture_label": PILLAR5_ARCHITECTURE_LABELS[architecture],
+                    "metric_label": metric_meta["label"],
+                    "unit": metric_meta["unit"],
+                    "baseline_temperature_k": float(summary_row["baseline_temperature_k"]),
+                    "baseline_temperature_c": float(summary_row["baseline_temperature_c"]),
+                    "baseline_value": float(summary_row["baseline_value"]),
+                    "target_temperature_k": float(summary_row["target_temperature_k"]),
+                    "target_temperature_c": float(summary_row["target_temperature_c"]),
+                    "target_value": float(summary_row["target_value"]),
+                    "temp_coeff_percent_per_k": float(summary_row["normalized_coeff_percent_per_k"]),
+                    "delta_drift": float("nan"),
+                    "delta_drift_percent": float("nan"),
+                    "trend": "",
+                }
+            )
+
+        if architecture == "PVSK_top":
+            continue
+
+        matrix_rows.append(
+            {
+                "architecture": architecture,
+                "architecture_label": PILLAR5_ARCHITECTURE_LABELS[architecture],
+                "metric_label": "Mismatch Ratio (Jtop/Jbottom)",
+                "unit": "ratio",
+                "baseline_temperature_k": float(mismatch_ratio_row["baseline_temperature_k"]),
+                "baseline_temperature_c": float(mismatch_ratio_row["baseline_temperature_c"]),
+                "baseline_value": float(mismatch_ratio_row["baseline_value"]),
+                "target_temperature_k": float(mismatch_ratio_row["target_temperature_k"]),
+                "target_temperature_c": float(mismatch_ratio_row["target_temperature_c"]),
+                "target_value": float(mismatch_ratio_row["target_value"]),
+                "temp_coeff_percent_per_k": float("nan"),
+                "delta_drift": float(mismatch_ratio_row["absolute_change"]),
+                "delta_drift_percent": float(mismatch_ratio_row["relative_change_percent"]),
+                "trend": str(mismatch_ratio_row["trend"]),
+            }
+        )
+
+    return matrix_rows
+
+
+def write_pillar5_markdown(out_path: Path, rows: Sequence[Dict[str, float | str]]) -> None:
+    if not rows:
+        raise ValueError("No Pillar 5 rows provided.")
+
+    baseline_k = float(rows[0]["baseline_temperature_k"])
+    baseline_c = float(rows[0]["baseline_temperature_c"])
+    target_k = float(rows[0]["target_temperature_k"])
+    target_c = float(rows[0]["target_temperature_c"])
+
+    lines = [
+        "# Pillar 5 Standardized Data Matrix",
+        "",
+        (
+            f"Note: the thermal sweep baseline is `{baseline_k:.2f} K = {baseline_c:.2f} C`, "
+            f"not exact STC `25.00 C = 298.15 K`."
+        ),
+        "",
+    ]
+
+    for architecture in ["PVSK_top", "Tandem_2T", "Tandem_4T"]:
+        architecture_rows = [row for row in rows if row["architecture"] == architecture]
+        lines.extend(
+            [
+                f"## {PILLAR5_ARCHITECTURE_LABELS[architecture]}",
+                "",
+                (
+                    f"| Metric | Value @ {baseline_k:.0f} K ({baseline_c:.2f} C) | "
+                    f"Value @ {target_c:.2f} C ({target_k:.2f} K) | Temp. Coeff. (%/K) | Delta Drift |"
+                ),
+                "| --- | ---: | ---: | ---: | ---: |",
+            ]
+        )
+
+        for row in architecture_rows:
+            delta_drift = "—"
+            if np.isfinite(float(row["delta_drift"])):
+                delta_drift = (
+                    f"{format_value(float(row['delta_drift']), 4)} "
+                    f"({format_value(float(row['delta_drift_percent']), 3)}%, {row['trend']})"
+                )
+
+            temp_coeff = "—"
+            if np.isfinite(float(row["temp_coeff_percent_per_k"])):
+                temp_coeff = format_value(float(row["temp_coeff_percent_per_k"]), 4)
+
+            lines.append(
+                (
+                    f"| {row['metric_label']} ({row['unit']}) | "
+                    f"{format_value(float(row['baseline_value']), 4)} | "
+                    f"{format_value(float(row['target_value']), 4)} | "
+                    f"{temp_coeff} | {delta_drift} |"
+                )
+            )
+
+        if architecture != "PVSK_top":
+            lines.extend(
+                [
+                    "",
+                    (
+                        "Mismatch ratio is derived from the filtered top-cell and bottom-cell `Jsc` values, "
+                        "so it is the same design constraint for both `2T` and equivalent `4T` reporting."
+                    ),
+                ]
+            )
+
+        lines.append("")
+
+    out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
 def add_reference_vertical(ax: plt.Axes, target_c: float) -> None:
@@ -983,6 +1126,7 @@ def main() -> None:
         baseline_k=args.baseline_temp_k,
         target_k=target_temp_k,
     )
+    pillar5_rows = build_pillar5_matrix_rows(summary_rows, mismatch_summary_rows)
 
     top_fieldnames = [
         "cell",
@@ -1077,6 +1221,22 @@ def main() -> None:
         "j_gap_top_minus_bottom",
         "j_ratio_top_over_bottom",
     ]
+    pillar5_fieldnames = [
+        "architecture",
+        "architecture_label",
+        "metric_label",
+        "unit",
+        "baseline_temperature_k",
+        "baseline_temperature_c",
+        "baseline_value",
+        "target_temperature_k",
+        "target_temperature_c",
+        "target_value",
+        "temp_coeff_percent_per_k",
+        "delta_drift",
+        "delta_drift_percent",
+        "trend",
+    ]
 
     save_csv(csv_dir / "subcell_temperature_metrics.csv", top_rows + bottom_rows, top_fieldnames)
     save_csv(csv_dir / "tandem_temperature_metrics.csv", tandem_rows, tandem_fieldnames)
@@ -1084,6 +1244,8 @@ def main() -> None:
     save_csv(csv_dir / "temperature_coefficients.csv", coefficient_rows, coefficient_fieldnames)
     save_csv(csv_dir / "mismatch_drift_summary.csv", mismatch_summary_rows, mismatch_fieldnames)
     save_csv(csv_dir / "mismatch_drift_vs_temperature.csv", drift_rows, drift_fieldnames)
+    save_csv(csv_dir / "pillar5_standardized_data_matrix.csv", pillar5_rows, pillar5_fieldnames)
+    write_pillar5_markdown(outdir / "pillar5_standardized_data_matrix.md", pillar5_rows)
 
     plot_single_cell_metrics(
         figures_dir / "pvsk_metrics_vs_temperature.png",
@@ -1177,6 +1339,7 @@ def main() -> None:
     print(f"CdTe Voc slope: {bottom_voc_slope:.3f} mV/K")
     print(f"Jtop - Jbottom at target: {float(gap_row['target_value']):.4f} mA/cm2 ({str(gap_row['trend'])})")
     print(f"Jtop / Jbottom at target: {float(ratio_row['target_value']):.4f} ({str(ratio_row['trend'])})")
+    print("Pillar 5 matrix: results/thermal/csv/pillar5_standardized_data_matrix.csv")
     print(f"Outputs written to: {outdir}")
 
 
