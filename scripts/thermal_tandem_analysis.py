@@ -31,6 +31,16 @@ METRIC_META = {
     "eta": {"label": "Efficiency (%)", "unit": "%"},
 }
 
+SUMMARY_METRIC_META = {
+    **METRIC_META,
+    "pmax": {"label": "Pmax (mW cm$^{-2}$)", "unit": "mW/cm2"},
+}
+
+COEFFICIENT_META = {
+    "voc": {"symbol": "beta", "absolute_scale": 1000.0, "absolute_unit": "mV/K"},
+    "pmax": {"symbol": "gamma", "absolute_scale": 1.0, "absolute_unit": "mW/cm2/K"},
+}
+
 RECOMB_COLUMNS = [
     "j_total_rec(mA/cm2)",
     "j_total_gen(mA/cm2)",
@@ -362,7 +372,7 @@ def build_metric_summary_rows(
 
     for cell in sorted({str(row["cell"]) for row in rows}):
         temperatures_k, _ = extract_series(rows, cell, "voc")
-        for metric_name, metric_meta in METRIC_META.items():
+        for metric_name, metric_meta in SUMMARY_METRIC_META.items():
             _, values = extract_series(rows, cell, metric_name)
             baseline_value = interpolate_series(temperatures_k, values, baseline_k)
             target_value = interpolate_series(temperatures_k, values, target_k)
@@ -386,6 +396,44 @@ def build_metric_summary_rows(
             )
 
     return summary_rows
+
+
+def build_temperature_coefficient_rows(
+    rows: Sequence[Dict[str, float | str]],
+    baseline_k: float,
+    target_k: float,
+) -> List[Dict[str, float | str]]:
+    coefficient_rows: List[Dict[str, float | str]] = []
+
+    for cell in sorted({str(row["cell"]) for row in rows}):
+        temperatures_k, _ = extract_series(rows, cell, "voc")
+        for metric_name, coeff_meta in COEFFICIENT_META.items():
+            _, values = extract_series(rows, cell, metric_name)
+            baseline_value = interpolate_series(temperatures_k, values, baseline_k)
+            target_value = interpolate_series(temperatures_k, values, target_k)
+            slope = linear_slope_per_k(temperatures_k, values)
+            coefficient_rows.append(
+                {
+                    "cell": cell,
+                    "coefficient_symbol": coeff_meta["symbol"],
+                    "metric": metric_name,
+                    "metric_unit": SUMMARY_METRIC_META[metric_name]["unit"],
+                    "baseline_temperature_k": baseline_k,
+                    "baseline_temperature_c": baseline_k - 273.15,
+                    "baseline_value": baseline_value,
+                    "target_temperature_k": target_k,
+                    "target_temperature_c": target_k - 273.15,
+                    "target_value": target_value,
+                    "linear_slope_per_k": slope,
+                    "absolute_coefficient": coeff_meta["absolute_scale"] * slope,
+                    "absolute_unit": coeff_meta["absolute_unit"],
+                    "normalized_coeff_percent_per_k": (
+                        100.0 * slope / baseline_value if baseline_value != 0 else float("nan")
+                    ),
+                }
+            )
+
+    return coefficient_rows
 
 
 def build_mismatch_summary_rows(
@@ -763,6 +811,10 @@ def write_summary(
     tandem_2t_temps, tandem_2t_voc = extract_series(tandem_rows, "Tandem_2T", "voc")
     _, tandem_2t_eta = extract_series(tandem_rows, "Tandem_2T", "eta")
     _, tandem_4t_eta = extract_series(tandem_rows, "Tandem_4T", "eta")
+    _, tandem_2t_pmax = extract_series(tandem_rows, "Tandem_2T", "pmax")
+    _, tandem_4t_pmax = extract_series(tandem_rows, "Tandem_4T", "pmax")
+    top_pmax = np.asarray([float(row["pmax"]) for row in top_rows], dtype=float)
+    bottom_pmax = np.asarray([float(row["pmax"]) for row in bottom_rows], dtype=float)
 
     gap_row = next(row for row in mismatch_summary_rows if row["metric"] == "Jtop_minus_Jbottom")
     ratio_row = next(row for row in mismatch_summary_rows if row["metric"] == "Jtop_over_Jbottom")
@@ -786,6 +838,25 @@ def write_summary(
             f"({100.0 * linear_slope_per_k(bottom_temperatures_k, bottom_voc) / interpolate_series(bottom_temperatures_k, bottom_voc, baseline_k):.3f} %/K)"
         ),
         f"- 2T tandem Voc slope = {1000.0 * linear_slope_per_k(tandem_2t_temps, tandem_2t_voc):.3f} mV/K",
+        "",
+        "Power thermal coefficients (gamma for Pmax):",
+        (
+            f"- PVSK top gamma_Pmax = {linear_slope_per_k(top_temperatures_k, top_pmax):.5f} mW/cm2/K "
+            f"({100.0 * linear_slope_per_k(top_temperatures_k, top_pmax) / interpolate_series(top_temperatures_k, top_pmax, baseline_k):.3f} %/K)"
+        ),
+        (
+            f"- CdTe filtered gamma_Pmax = {linear_slope_per_k(bottom_temperatures_k, bottom_pmax):.5f} mW/cm2/K "
+            f"({100.0 * linear_slope_per_k(bottom_temperatures_k, bottom_pmax) / interpolate_series(bottom_temperatures_k, bottom_pmax, baseline_k):.3f} %/K)"
+        ),
+        (
+            f"- 2T tandem gamma_Pmax = {linear_slope_per_k(tandem_2t_temps, tandem_2t_pmax):.5f} mW/cm2/K "
+            f"({100.0 * linear_slope_per_k(tandem_2t_temps, tandem_2t_pmax) / interpolate_series(tandem_2t_temps, tandem_2t_pmax, baseline_k):.3f} %/K)"
+        ),
+        (
+            f"- 4T equivalent gamma_Pmax = {linear_slope_per_k(tandem_2t_temps, tandem_4t_pmax):.5f} mW/cm2/K "
+            f"({100.0 * linear_slope_per_k(tandem_2t_temps, tandem_4t_pmax) / interpolate_series(tandem_2t_temps, tandem_4t_pmax, baseline_k):.3f} %/K)"
+        ),
+        "- Because Pin is fixed at 100 mW/cm2 in this workflow, eta and Pmax are numerically identical, but gamma_Pmax is now reported explicitly to avoid ambiguity.",
         "",
         "Why Voc drops faster in the CdTe bottom cell:",
         (
@@ -902,6 +973,11 @@ def main() -> None:
         baseline_k=args.baseline_temp_k,
         target_k=target_temp_k,
     )
+    coefficient_rows = build_temperature_coefficient_rows(
+        rows=top_rows + bottom_rows + tandem_rows,
+        baseline_k=args.baseline_temp_k,
+        target_k=target_temp_k,
+    )
     mismatch_summary_rows = build_mismatch_summary_rows(
         drift_rows=drift_rows,
         baseline_k=args.baseline_temp_k,
@@ -964,6 +1040,22 @@ def main() -> None:
         "linear_slope_per_k",
         "normalized_coeff_percent_per_k",
     ]
+    coefficient_fieldnames = [
+        "cell",
+        "coefficient_symbol",
+        "metric",
+        "metric_unit",
+        "baseline_temperature_k",
+        "baseline_temperature_c",
+        "baseline_value",
+        "target_temperature_k",
+        "target_temperature_c",
+        "target_value",
+        "linear_slope_per_k",
+        "absolute_coefficient",
+        "absolute_unit",
+        "normalized_coeff_percent_per_k",
+    ]
     mismatch_fieldnames = [
         "metric",
         "unit",
@@ -989,6 +1081,7 @@ def main() -> None:
     save_csv(csv_dir / "subcell_temperature_metrics.csv", top_rows + bottom_rows, top_fieldnames)
     save_csv(csv_dir / "tandem_temperature_metrics.csv", tandem_rows, tandem_fieldnames)
     save_csv(csv_dir / "temperature_metric_summary.csv", summary_rows, summary_fieldnames)
+    save_csv(csv_dir / "temperature_coefficients.csv", coefficient_rows, coefficient_fieldnames)
     save_csv(csv_dir / "mismatch_drift_summary.csv", mismatch_summary_rows, mismatch_fieldnames)
     save_csv(csv_dir / "mismatch_drift_vs_temperature.csv", drift_rows, drift_fieldnames)
 

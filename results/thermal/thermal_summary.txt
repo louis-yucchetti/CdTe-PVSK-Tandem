@@ -11,6 +11,13 @@ Sub-cell thermal coefficients:
 - CdTe filtered Voc slope = -2.761 mV/K (-0.349 %/K)
 - 2T tandem Voc slope = -4.134 mV/K
 
+Power thermal coefficients (gamma for Pmax):
+- PVSK top gamma_Pmax = -0.02990 mW/cm2/K (-0.138 %/K)
+- CdTe filtered gamma_Pmax = -0.01377 mW/cm2/K (-0.433 %/K)
+- 2T tandem gamma_Pmax = -0.02079 mW/cm2/K (-0.222 %/K)
+- 4T equivalent gamma_Pmax = -0.04367 mW/cm2/K (-0.176 %/K)
+- Because Pin is fixed at 100 mW/cm2 in this workflow, eta and Pmax are numerically identical, but gamma_Pmax is now reported explicitly to avoid ambiguity.
+
 Why Voc drops faster in the CdTe bottom cell:
 - At 300 K, Voc is 1.2854 V for PVSK but only 0.7915 V for filtered CdTe.
 - The non-bulk share of total recombination at Voc is 0.71% for PVSK at 300 K and 0.74% at 65.00 C.

@@ -233,6 +233,21 @@ $$
 
 You do not explicitly fit `\alpha` and `\beta` in this repository, but the equation is helpful for understanding why a lower-gap device often becomes more vulnerable to thermal voltage loss.
 
+Thermal coefficients are reported in the usual normalized form:
+
+$$
+\beta_{Voc} = \frac{1}{V_{oc,ref}}\frac{dV_{oc}}{dT}\times 100 \;\; [\%/K]
+$$
+
+$$
+\gamma_{Pmax} = \frac{1}{P_{max,ref}}\frac{dP_{max}}{dT}\times 100 \;\; [\%/K]
+$$
+
+The repository also stores the corresponding absolute slopes:
+
+- `beta_Voc` in `mV/K`
+- `gamma_Pmax` in `mW/cm^2/K`
+
 ## Why Voc Can Drop Faster in One Sub-Cell Than the Other
 
 For your specific data, the filtered CdTe bottom cell loses `Voc` faster than the PVSK top cell.
@@ -365,6 +380,7 @@ CSV files:
 - `subcell_temperature_metrics.csv`
 - `tandem_temperature_metrics.csv`
 - `temperature_metric_summary.csv`
+- `temperature_coefficients.csv`
 - `mismatch_drift_vs_temperature.csv`
 - `mismatch_drift_summary.csv`
 
