@@ -304,6 +304,11 @@ def main() -> None:
         "--cdte-qe", default="CdTe_filtered_louis.qe", help="Bottom-cell EQE file"
     )
     parser.add_argument(
+        "--cdte-unfiltered-qe",
+        default="CdTe_louis.qe",
+        help="Unfiltered CdTe EQE file for comparison plotting",
+    )
+    parser.add_argument(
         "--pin-mw-cm2",
         type=float,
         default=100.0,
@@ -340,12 +345,14 @@ def main() -> None:
     cdte_unfiltered_iv_path = Path(args.cdte_unfiltered_iv)
     pvsk_qe_path = Path(args.pvsk_qe)
     cdte_qe_path = Path(args.cdte_qe)
+    cdte_unfiltered_qe_path = Path(args.cdte_unfiltered_qe)
 
     v_top, j_top = read_scaps_two_columns(pvsk_iv_path)
     v_cdte_filtered, j_cdte_filtered = read_scaps_two_columns(cdte_filtered_iv_path)
     v_cdte_unfiltered, j_cdte_unfiltered = read_scaps_two_columns(cdte_unfiltered_iv_path)
     wl_top, eqe_top = read_scaps_two_columns(pvsk_qe_path)
     wl_bottom, eqe_bottom = read_scaps_two_columns(cdte_qe_path)
+    wl_cdte_unfiltered, eqe_cdte_unfiltered = read_scaps_two_columns(cdte_unfiltered_qe_path)
 
     metrics_top = extract_pv_metrics(v_top, j_top, args.pin_mw_cm2)
     metrics_cdte_filtered = extract_pv_metrics(v_cdte_filtered, j_cdte_filtered, args.pin_mw_cm2)
@@ -381,6 +388,12 @@ def main() -> None:
     eqe_top_plot = eqe_top_interp[eqe_mask]
     eqe_bottom_plot = eqe_bottom_interp[eqe_mask]
     eqe_tandem_plot = eqe_tandem_optical[eqe_mask]
+    wl_cdte_unfiltered_sorted, eqe_cdte_unfiltered_sorted = sort_unique(
+        wl_cdte_unfiltered, np.clip(eqe_cdte_unfiltered, 0.0, 100.0)
+    )
+    eqe_cdte_unfiltered_plot = np.interp(
+        wl_eqe_plot, wl_cdte_unfiltered_sorted, eqe_cdte_unfiltered_sorted
+    )
     if wl_eqe_plot.size < 2:
         raise ValueError(
             "Insufficient EQE points inside selected wavelength window. "
@@ -437,6 +450,14 @@ def main() -> None:
         lw=1.9,
         color="#7a3e00",
         label="CdTe bottom EQE (filtered)",
+    )
+    ax_eqe.plot(
+        wl_eqe_plot,
+        eqe_cdte_unfiltered_plot,
+        lw=1.7,
+        ls=":",
+        color="#a56a00",
+        label="CdTe bottom EQE (unfiltered)",
     )
     ax_eqe.plot(
         wl_eqe_plot,
@@ -632,9 +653,9 @@ def main() -> None:
         )
     print("")
     print(
-        "EQE note: the EQE figure shows PVSK EQE, filtered CdTe EQE, and the "
-        "constructed tandem optical response (top + filtered bottom, clipped to 100%) "
-        "in the requested wavelength window."
+        "EQE note: the EQE figure shows PVSK EQE, filtered CdTe EQE, unfiltered CdTe "
+        "EQE as a dotted comparison, and the constructed tandem optical response "
+        "(top + filtered bottom, clipped to 100%) in the requested wavelength window."
     )
     print(
         "4T note: starred 4T metrics are equivalent aggregated values from independent "
