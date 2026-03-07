@@ -1,5 +1,85 @@
 # PVSK/CdTe Tandem Analysis (SCAPS Exports)
 
+## What This Project Is For
+
+This repository supports the final tandem-solar-cell project by turning SCAPS exports into plots, metrics, and comparisons that can be used in the oral defense and in the non-graded scientific manuscript.
+
+The main script is `tandem_analysis.py`.
+
+## What We Actually Have To Deliver
+
+### 1. Graded Component: Oral Defense Only
+
+- The project grade is based **only** on the oral defense on **March 11, 2026**.
+- The oral defense counts for **100% of the project grade**, and the project itself is **40% of the course grade**.
+- Format: **15-minute presentation + 10-minute Q&A**.
+- There is **no graded written report**.
+
+### 2. Non-Graded Component: Scientific Manuscript
+
+- The report is **not** a course deliverable for grading.
+- It is meant to serve as material for a possible joint benchmarking paper.
+- Because of that, the report still needs strong bibliographic grounding and scientific interpretation.
+
+### 3. Main Priority Shift
+
+- The focus is now **bibliographic depth** and **physical interpretation**.
+- The goal is to explain **why** the device behaves as it does, not to spend time on complex curve fitting.
+- We are being evaluated as **R&D engineers**, not as fitting specialists.
+- A weak result with a strong physical explanation is more valuable than a perfect-looking unexplained simulation.
+
+## What The Defense Must Cover
+
+### Pillar 1. Bibliographic Analysis and Device Physics
+
+- Compare the chosen tandem technology with current efficiency records from the literature.
+- Explain the role of each layer: absorber, buffer, HTL, and ETL.
+- Justify why those materials are used and what their limitations are.
+- Present and justify the band diagrams at `0 V` and `Voc`.
+- Explain carrier transport and interface barriers using bibliographic support.
+
+### Pillar 2. Tandem Dynamics and EQE Analysis
+
+- Plot the J-V curves of each sub-cell and compare them with the full tandem response.
+- Use the **filtered bottom-cell** response when discussing tandem operation.
+- Use EQE curves to show spectral sharing between the top and bottom cells.
+- Explain any mismatch physically: bandgap misalignment, parasitic absorption, transport limits, or interface losses.
+- Compare extracted `Jsc` values with literature.
+
+### Pillar 3. Thermal Modeling and Mismatch Drift
+
+- Ensure `Eg(T)`, `mu(T)`, and `Nc, Nv(T)` are active in SCAPS.
+- Analyze how temperature affects the specific materials in each sub-cell.
+- Explain why `Voc` may fall faster in one sub-cell than in the other.
+- Study the drift at `65°C`: does the gap between `Jtop` and `Jbottom` shrink or widen?
+- This temperature-dependent mismatch drift is one of the main scientific results expected for the paper.
+
+### Pillar 4. Energy Yield Estimation (PVGIS)
+
+- Use **PVGIS hourly data** for a high-irradiance site such as **Ouarzazate, Morocco**.
+- Scale the result to a **60-cell module** using Python or Excel.
+- Include thermal losses using extracted coefficients such as `beta` for `Voc` and `gamma` for `Pmax`.
+
+### Pillar 5. Standardized Data Matrix
+
+The following table is mandatory in both the report and the oral defense:
+
+| Metric (Tandem) | Value @ 25°C (STC) | Value @ 65°C | Temp. Coeff. (% / K) |
+| --- | --- | --- | --- |
+| `Voc` (V) |  |  |  |
+| `Jsc` (mA/cm²) |  |  |  |
+| `FF` (%) |  |  |  |
+| `PCE` (%) |  |  |  |
+| Mismatch Ratio (`Jtop / Jbot`) |  |  | `Delta Drift` |
+
+## Workload Relief From The Professor
+
+- **No curve fitting:** extract parameters directly from SCAPS and explain their physical meaning.
+- **NGSPICE can be skipped:** simple Python or Excel scaling is enough for the yield study.
+- **Phase 4 is theoretical only:** about `0.5-1 page`, based on bibliography and Phase 2 results.
+
+## What This Repository Produces
+
 This project contains a Python workflow to:
 
 1. Parse SCAPS `.iv` and `.qe` text exports.
@@ -8,7 +88,12 @@ This project contains a Python workflow to:
 4. Plot PVSK EQE, filtered CdTe EQE, and constructed tandem optical EQE.
 5. Compute equivalent 4T tandem metrics and generate dedicated 4T power plots.
 
-The main script is: `tandem_analysis.py`
+## How To Use This Repo For The Project
+
+- Use the generated J-V and EQE plots to support the oral defense.
+- Use the extracted metrics to populate the standardized data matrix at `25°C` and `65°C`.
+- Tie every figure back to literature, layer selection, interface physics, spectral sharing, and thermal behavior.
+- Keep the discussion centered on **physical interpretation**, not on numerical fitting.
 
 ## Physics Model Used
 
