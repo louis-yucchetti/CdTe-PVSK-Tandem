@@ -1,0 +1,31 @@
+Thermal PVSK/CdTe analysis summary
+=================================
+
+Available simulation range: 300.00-350.00 K
+Baseline reported here: 300.00 K (26.85 C)
+Target reported here: 338.15 K (65.00 C)
+The sweep starts at 300 K, so exact STC 25.00 C = 298.15 K is not present in the dataset.
+
+Sub-cell thermal coefficients:
+- PVSK top Voc slope = -1.373 mV/K (-0.107 %/K)
+- CdTe filtered Voc slope = -2.761 mV/K (-0.349 %/K)
+- 2T tandem Voc slope = -4.134 mV/K
+
+Why Voc drops faster in the CdTe bottom cell:
+- At 300 K, Voc is 1.2854 V for PVSK but only 0.7915 V for filtered CdTe.
+- The non-bulk share of total recombination at Voc is 0.71% for PVSK at 300 K and 0.74% at 65.00 C.
+- The same quantity is 6.24% for CdTe at 300 K and 7.13% at 65.00 C.
+- Both cells are SRH-dominated in SCAPS, but the CdTe bottom cell carries a much larger thermally growing minority-contact leakage term.
+- The guessed PVSK absorber from the local device file is '(Cs-FA-MA)(4-81-15)Pb(I-Br)_3(83-17)' with nominal Eg ~ 1.600 eV.
+- The guessed CdTe absorber from the local device file is 'CdTe' with nominal Eg ~ 1.500 eV.
+- The lower-gap CdTe absorber also has a smaller Voc headroom, so the same thermally activated dark-current rise costs it more voltage.
+
+Current mismatch drift:
+- Jtop - Jbottom = 15.1400 mA/cm2 at 300 K and 15.1692 mA/cm2 at 65.00 C. The gap widens by 0.0293 mA/cm2 (0.193%).
+- Jtop / Jbottom = 3.8021 at 300 K and 3.8195 at 65.00 C. The ratio widens by 0.0174 (0.457%).
+- Jrec at 0 V changes from 3.9774 to 3.9717 mA/cm2 in PVSK, but from 0.2742 to 0.2971 mA/cm2 in CdTe.
+- That is why the drift widens rather than closes: the top-cell current stays nearly flat, while the filtered bottom-cell current slowly erodes with temperature.
+
+Tandem performance at the target temperature:
+- 2T efficiency changes from 9.378% to 8.592%.
+- 4T equivalent efficiency changes from 24.776% to 23.113%.
