@@ -66,11 +66,13 @@ The following table is mandatory in both the report and the oral defense:
 
 | Metric (Tandem) | Value @ 25°C (STC) | Value @ 65°C | Temp. Coeff. (% / K) |
 | --- | --- | --- | --- |
-| `Voc` (V) |  |  |  |
-| `Jsc` (mA/cm²) |  |  |  |
-| `FF` (%) |  |  |  |
-| `PCE` (%) |  |  |  |
-| Mismatch Ratio (`Jtop / Jbot`) |  |  | `Delta Drift` |
+| `Voc` (V) | TBD | TBD | TBD |
+| `Jsc` (mA/cm^2) | TBD | TBD | TBD |
+| `FF` (%) | TBD | TBD | TBD |
+| `PCE` (%) | TBD | TBD | TBD |
+| Mismatch Ratio (`Jtop / Jbot`) | TBD | TBD | TBD |
+
+Mismatch drift should be discussed separately as the change in `Jtop / Jbot` between `25°C` and `65°C`; it is not a literal entry in the temperature-coefficient column.
 
 ## Workload Relief From The Professor
 
