@@ -2,12 +2,13 @@
 
 ## Overview
 
-This repository turns SCAPS exports into reproducible figures, tables, and physics interpretations for a perovskite/CdTe tandem solar-cell project.
+This repository turns SCAPS exports and PVGIS weather data into reproducible figures, tables, and physics interpretations for a perovskite/CdTe tandem solar-cell project.
 
-It supports two complementary workflows:
+It supports three complementary workflows:
 
 - `scripts/tandem_analysis.py` for single-temperature JV, EQE, 2T tandem, and equivalent 4T analysis.
 - `scripts/thermal_tandem_analysis.py` for the `300-350 K` thermal sweep, including sub-cell trends, 2T/4T tandem trends, and current-mismatch drift at `65 C`.
+- `scripts/ouarzazate_module_yield_analysis.py` for PVGIS-driven hourly module temperature, `Voc`, `Pmax`, and annual yield estimates for a `60`-cell tandem module in Ouarzazate using the extracted thermal coefficients and the Faiman model.
 
 The analysis is built around your specific simulated devices:
 
@@ -26,6 +27,7 @@ This means the repository is not only a plotting utility. It is also a compact s
 ```text
 .
 |-- data/
+|   |-- PVGIS/
 |   `-- scaps_exports/
 |       |-- iv/
 |       `-- qe/
@@ -41,10 +43,13 @@ This means the repository is not only a plotting utility. It is also a compact s
 |-- results/
 |   |-- csv/
 |   |-- figures/
+|   |-- pvgis/
+|   |   `-- csv/
 |   `-- thermal/
 |       |-- csv/
 |       `-- figures/
 `-- scripts/
+    |-- ouarzazate_module_yield_analysis.py
     |-- tandem_analysis.py
     `-- thermal_tandem_analysis.py
 ```
@@ -65,13 +70,14 @@ Because of that, the priority is not curve fitting for its own sake. The priorit
 
 ## Main Scientific Questions
 
-This repository is organized around five questions:
+This repository is organized around six questions:
 
 1. What are the electrical metrics of the isolated PVSK top cell and the filtered CdTe bottom cell?
 2. What happens when those two sub-cells are combined into a `2T` series tandem?
 3. What is the corresponding `4T` equivalent when each sub-cell operates independently?
 4. How do `Voc`, `Jsc`, `FF`, and efficiency vary between `300 K` and `350 K`?
 5. At `65 C = 338.15 K`, does the current mismatch between top and bottom sub-cells shrink or widen?
+6. What module-level `Voc`, `Pmax`, and annual energy yield do the extracted tandem coefficients predict for `2023` hourly weather in Ouarzazate?
 
 ## Device Physics
 
@@ -248,6 +254,52 @@ The repository also stores the corresponding absolute slopes:
 - `beta_Voc` in `mV/K`
 - `gamma_Pmax` in `mW/cm^2/K`
 
+## Module Temperature and Yield Model
+
+For the Ouarzazate field-yield workflow, the repository converts hourly PVGIS weather data into module operating conditions.
+
+Module temperature is estimated with the Faiman relation
+
+$$
+T_{mod} = T_{air} + \frac{G_{POA}}{U_0 + U_1 u}
+$$
+
+using the default coefficients `U0 = 25 W/m^2/K` and `U1 = 6.84 W s/m^3/K`.
+
+The PVGIS file provides wind speed at `10 m`, so the script first downscales that to an approximate module-height wind speed with
+
+$$
+u_{2m} = u_{10m}\left(\frac{2}{10}\right)^{0.14}
+$$
+
+to avoid overestimating convective cooling.
+
+The module scaling assumes:
+
+- `60` series-connected tandem cells,
+- total module area `1.65 m^2`,
+- cell area `1.65 / 60 = 0.0275 m^2 = 275 cm^2`.
+
+The script extrapolates the SCAPS-derived metrics from the `300 K` thermal baseline to exact STC `25 C = 298.15 K`, then applies:
+
+$$
+P_{max}(G,T) = P_{max,STC}\left(\frac{G}{1000}\right)\left[1 + \gamma_{Pmax}(T_{mod} - 25)\right]
+$$
+
+For `Voc`, the script combines the extracted linear temperature slope with a logarithmic irradiance term,
+
+$$
+V_{oc}(G,T) = V_{oc,STC} + \beta_{Voc}(T_{mod} - 25) + nN_sV_T(T)\ln\left(\frac{G}{1000}\right)
+$$
+
+where the effective `nN_s` is inferred from the STC `Voc` and `FF` so that low-irradiance `Voc` is not artificially flat.
+
+At module level:
+
+- `Voc,module = 60 * (Voc,top + Voc,bottom)`
+- the `4T` module `Voc` reported here is the same equivalent sum as in the SCAPS-based `4T` workflow,
+- `Pmax,module = Pmax,density * module_area`.
+
 ## Why Voc Can Drop Faster in One Sub-Cell Than the Other
 
 For your specific data, the filtered CdTe bottom cell loses `Voc` faster than the PVSK top cell.
@@ -319,6 +371,28 @@ Default inputs:
 - `devices/pvsk/scaps/Louis_PVSK.scaps`
 - `devices/cdte/scaps/Group1_CdTe_with_PVSK_filter.scaps`
 
+## `scripts/ouarzazate_module_yield_analysis.py`
+
+This script handles the PVGIS-driven module-yield workflow:
+
+- reads hourly PVGIS data for `G(i)`, `T2m`, and `WS10m`,
+- reads `results/thermal/csv/temperature_metric_summary.csv`,
+- extrapolates thermal-sweep metrics from `300 K` to exact STC,
+- computes hourly module temperature with the Faiman model,
+- applies the extracted `beta` and `gamma` coefficients to `Voc` and `Pmax`,
+- scales the tandem to a `60`-cell, `1.65 m^2` module,
+- writes hourly and annual summary CSV files.
+
+Default inputs and assumptions:
+
+- `data/PVGIS/Timeseries_30.937_-6.906_SA3_32deg_-4deg_2023_2023.csv`
+- `results/thermal/csv/temperature_metric_summary.csv`
+- `60` cells
+- `1.65 m^2` module area
+- `U0 = 25`, `U1 = 6.84`
+- module height `2 m`
+- wind-shear exponent `0.14`
+
 ## Usage
 
 Run the single-temperature analysis:
@@ -343,6 +417,18 @@ Set another target temperature for the drift discussion:
 
 ```bash
 python scripts/thermal_tandem_analysis.py --target-temp-c 65
+```
+
+Run the Ouarzazate module-yield analysis:
+
+```bash
+python scripts/ouarzazate_module_yield_analysis.py
+```
+
+Point it to another PVGIS file or output folder:
+
+```bash
+python scripts/ouarzazate_module_yield_analysis.py --pvgis-file data/PVGIS/your_file.csv --output-dir results/pvgis/csv
 ```
 
 ## Outputs
@@ -388,6 +474,13 @@ Text summary:
 
 - `thermal_summary.txt`
 
+## PVGIS Module-Yield Outputs
+
+The PVGIS module-yield script writes to `results/pvgis/csv/`:
+
+- `ouarzazate_2023_tandem_module_hourly.csv`
+- `ouarzazate_2023_tandem_module_summary.csv`
+
 ## How To Read the Plots
 
 The plotting strategy is intentionally split into absolute and normalized views.
@@ -418,6 +511,21 @@ Important caveat: the thermal sweep starts at `300 K = 26.85 C`, not exact STC `
 | `Tandem_2T` | 2.0769 | 1.9200 | -0.1990 | 5.5714 | 5.5632 | 9.3777 | 8.5922 |
 | `Tandem_4T(eq)` | 2.0769 | 1.9200 | -0.1990 | 25.9460 | 25.9295 | 24.7758 | 23.1132 |
 
+### Ouarzazate `2023` Module Projection
+
+Assumptions here are the default ones used by `scripts/ouarzazate_module_yield_analysis.py`: `60` series cells, total area `1.65 m^2`, and Faiman thermal modeling.
+
+| Architecture | `Pmax @ STC` (W) | `Voc @ STC` (V) | Annual yield (kWh) | Average `Voc` over all `8760` h (V) | Average `Voc` over sunlit hours (V) | Max `Voc` (V) | Min `Voc` over all hours (V) |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| `Tandem_2T` | 155.366 | 125.072 | 376.823 | 56.715 | 114.871 | 124.965 | 0.000 |
+| `Tandem_4T(eq)` | 410.133 | 125.072 | 1004.461 | 56.715 | 114.871 | 124.965 | 0.000 |
+
+Notes for reading those numbers:
+
+- The `Voc` values are identical for `2T` and `4T(eq)` because both are reported as the sum of top and bottom sub-cell `Voc`.
+- The minimum `Voc` over all hours is `0 V` because night hours are included.
+- The minimum sunlit `Voc` is `69.196 V`, occurring at low-irradiance hot conditions near sunset.
+
 ### Thermal Conclusions
 
 - The filtered CdTe bottom cell loses `Voc` much faster than the PVSK top cell: about `-2.761 mV/K` versus `-1.373 mV/K`.
@@ -442,6 +550,10 @@ That is exactly the kind of result that matters for tandem engineering: not just
 
 - The `4T` numbers are equivalent aggregated metrics, not a unique measured four-terminal JV curve.
 - The thermal baseline is `300 K`, not exact STC.
+- The module-yield script linearly extrapolates the `300 K` thermal baseline to exact STC `25 C`.
+- The module-yield script uses generic Faiman defaults (`U0 = 25`, `U1 = 6.84`) rather than a module-specific thermal fit.
+- PVGIS supplies wind at `10 m`; the module-yield script converts that to `2 m` with a `0.14` power-law exponent before applying the Faiman model.
+- Annual average `Voc` over all `8760` hours includes night-time zeros; the generated summary CSV also reports sunlit-only `Voc` averages and minima.
 - The optical tandem EQE is a constructed optical sum using the filtered bottom response you requested.
 - If the constructed `2T` JV does not cross `V = 0` over the overlapping current range, the code transparently falls back to `Jsc_2T = min(Jsc_top, Jsc_bottom)`.
 - SCAPS sign convention is handled internally with `P = -VJ` for generated power.
