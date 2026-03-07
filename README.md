@@ -4,7 +4,33 @@
 
 This repository supports the final tandem-solar-cell project by turning SCAPS exports into plots, metrics, and comparisons that can be used in the oral defense and in the non-graded scientific manuscript.
 
-The main script is `tandem_analysis.py`.
+The main script is `scripts/tandem_analysis.py`.
+
+## Project Layout
+
+```text
+.
+|-- data/
+|   `-- scaps_exports/
+|       |-- iv/
+|       `-- qe/
+|-- devices/
+|   |-- cdte/
+|   |   |-- absorption/
+|   |   `-- scaps/
+|   |-- pvsk/
+|   |   |-- band_diagrams/
+|   |   `-- scaps/
+|   `-- tandem/
+|       `-- scaps/
+|-- results/
+|   |-- csv/
+|   `-- figures/
+`-- scripts/
+    `-- tandem_analysis.py
+```
+
+`Solar Cells Modelling kits` is intentionally left untouched. Any folder named `outdated` is also intentionally left in place.
 
 ## What We Actually Have To Deliver
 
@@ -178,13 +204,14 @@ The script applies a journal-style theme:
 
 ## Inputs
 
-Default expected files in project root:
+Default expected files:
 
-- `PVSK_louis.iv`
-- `CdTe_filtered_louis.iv`
-- `CdTe_louis.iv`
-- `PVSK_louis.qe`
-- `CdTe_filtered_louis.qe`
+- `data/scaps_exports/iv/PVSK_louis.iv`
+- `data/scaps_exports/iv/CdTe_filtered_louis.iv`
+- `data/scaps_exports/iv/CdTe_louis.iv`
+- `data/scaps_exports/qe/PVSK_louis.qe`
+- `data/scaps_exports/qe/CdTe_filtered_louis.qe`
+- `data/scaps_exports/qe/CdTe_louis.qe`
 
 SCAPS headers are automatically ignored; first two numeric columns are used.
 
@@ -193,38 +220,38 @@ SCAPS headers are automatically ignored; first two numeric columns are used.
 Run with defaults:
 
 ```bash
-python tandem_analysis.py
+python scripts/tandem_analysis.py
 ```
 
 Set EQE wavelength window explicitly:
 
 ```bash
-python tandem_analysis.py --eqe-min-nm 250 --eqe-max-nm 900
+python scripts/tandem_analysis.py --eqe-min-nm 250 --eqe-max-nm 900
 ```
 
 Override unfiltered CdTe file path:
 
 ```bash
-python tandem_analysis.py --cdte-unfiltered-iv CdTe_louis.iv
+python scripts/tandem_analysis.py --cdte-unfiltered-iv data/scaps_exports/iv/CdTe_louis.iv
 ```
 
 Choose another output folder:
 
 ```bash
-python tandem_analysis.py --outdir results
+python scripts/tandem_analysis.py --outdir results
 ```
 
 ## Outputs
 
-The script writes:
+The script writes into `results/figures/` and `results/csv/` by default:
 
-- `tandem_jv_curve.png`
-- `tandem_eqe_curve.png`
-- `tandem_4t_power_curves.png`
-- `tandem_4t_power_map.png`
-- `tandem_metrics.csv`
-- `tandem_jv_curve.csv`
-- `tandem_eqe_curve.csv`
+- `results/figures/tandem_jv_curve.png`
+- `results/figures/tandem_eqe_curve.png`
+- `results/figures/tandem_4t_power_curves.png`
+- `results/figures/tandem_4t_power_map.png`
+- `results/csv/tandem_metrics.csv`
+- `results/csv/tandem_jv_curve.csv`
+- `results/csv/tandem_eqe_curve.csv`
 
 ### Output CSV details
 

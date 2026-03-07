@@ -11,6 +11,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+
 def apply_publication_style() -> None:
     """Apply a clean journal-style matplotlib theme."""
     plt.rcParams.update(
@@ -286,26 +289,46 @@ def save_metrics_csv(
     out_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
+def resolve_project_path(path_str: str) -> Path:
+    """Resolve a CLI path relative to the repository root unless absolute."""
+    path = Path(path_str)
+    if path.is_absolute():
+        return path
+    return PROJECT_ROOT / path
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Plot JV and EQE curves and extract PV parameters for PVSK/CdTe tandem."
     )
-    parser.add_argument("--pvsk-iv", default="PVSK_louis.iv", help="Top-cell JV file")
     parser.add_argument(
-        "--cdte-iv", default="CdTe_filtered_louis.iv", help="Bottom-cell JV file"
+        "--pvsk-iv",
+        default="data/scaps_exports/iv/PVSK_louis.iv",
+        help="Top-cell JV file",
+    )
+    parser.add_argument(
+        "--cdte-iv",
+        default="data/scaps_exports/iv/CdTe_filtered_louis.iv",
+        help="Bottom-cell JV file",
     )
     parser.add_argument(
         "--cdte-unfiltered-iv",
-        default="CdTe_louis.iv",
+        default="data/scaps_exports/iv/CdTe_louis.iv",
         help="Unfiltered CdTe JV file",
     )
-    parser.add_argument("--pvsk-qe", default="PVSK_louis.qe", help="Top-cell EQE file")
     parser.add_argument(
-        "--cdte-qe", default="CdTe_filtered_louis.qe", help="Bottom-cell EQE file"
+        "--pvsk-qe",
+        default="data/scaps_exports/qe/PVSK_louis.qe",
+        help="Top-cell EQE file",
+    )
+    parser.add_argument(
+        "--cdte-qe",
+        default="data/scaps_exports/qe/CdTe_filtered_louis.qe",
+        help="Bottom-cell EQE file",
     )
     parser.add_argument(
         "--cdte-unfiltered-qe",
-        default="CdTe_louis.qe",
+        default="data/scaps_exports/qe/CdTe_louis.qe",
         help="Unfiltered CdTe EQE file for comparison plotting",
     )
     parser.add_argument(
@@ -316,7 +339,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--outdir",
-        default=".",
+        default="results",
         help="Output directory for plots and csv files",
     )
     parser.add_argument(
@@ -336,16 +359,19 @@ def main() -> None:
     if args.eqe_min_nm >= args.eqe_max_nm:
         raise ValueError("--eqe-min-nm must be strictly smaller than --eqe-max-nm.")
 
-    outdir = Path(args.outdir).resolve()
-    outdir.mkdir(parents=True, exist_ok=True)
+    outdir = resolve_project_path(args.outdir).resolve()
+    figures_dir = outdir / "figures"
+    csv_dir = outdir / "csv"
+    figures_dir.mkdir(parents=True, exist_ok=True)
+    csv_dir.mkdir(parents=True, exist_ok=True)
     apply_publication_style()
 
-    pvsk_iv_path = Path(args.pvsk_iv)
-    cdte_filtered_iv_path = Path(args.cdte_iv)
-    cdte_unfiltered_iv_path = Path(args.cdte_unfiltered_iv)
-    pvsk_qe_path = Path(args.pvsk_qe)
-    cdte_qe_path = Path(args.cdte_qe)
-    cdte_unfiltered_qe_path = Path(args.cdte_unfiltered_qe)
+    pvsk_iv_path = resolve_project_path(args.pvsk_iv)
+    cdte_filtered_iv_path = resolve_project_path(args.cdte_iv)
+    cdte_unfiltered_iv_path = resolve_project_path(args.cdte_unfiltered_iv)
+    pvsk_qe_path = resolve_project_path(args.pvsk_qe)
+    cdte_qe_path = resolve_project_path(args.cdte_qe)
+    cdte_unfiltered_qe_path = resolve_project_path(args.cdte_unfiltered_qe)
 
     v_top, j_top = read_scaps_two_columns(pvsk_iv_path)
     v_cdte_filtered, j_cdte_filtered = read_scaps_two_columns(cdte_filtered_iv_path)
@@ -431,7 +457,7 @@ def main() -> None:
     style_axis(ax_jv)
     ax_jv.legend(loc="best")
     fig_jv.tight_layout()
-    jv_plot_path = outdir / "tandem_jv_curve.png"
+    jv_plot_path = figures_dir / "tandem_jv_curve.png"
     fig_jv.savefig(jv_plot_path, dpi=600)
     plt.close(fig_jv)
 
@@ -474,7 +500,7 @@ def main() -> None:
     style_axis(ax_eqe)
     ax_eqe.legend(loc="best")
     fig_eqe.tight_layout()
-    eqe_plot_path = outdir / "tandem_eqe_curve.png"
+    eqe_plot_path = figures_dir / "tandem_eqe_curve.png"
     fig_eqe.savefig(eqe_plot_path, dpi=600)
     plt.close(fig_eqe)
 
@@ -520,7 +546,7 @@ def main() -> None:
     style_axis(ax_4t_curves)
     ax_4t_curves.legend(loc="best")
     fig_4t_curves.tight_layout()
-    plot_4t_curves_path = outdir / "tandem_4t_power_curves.png"
+    plot_4t_curves_path = figures_dir / "tandem_4t_power_curves.png"
     fig_4t_curves.savefig(plot_4t_curves_path, dpi=600)
     plt.close(fig_4t_curves)
 
@@ -556,13 +582,13 @@ def main() -> None:
     style_axis(ax_4t_map)
     ax_4t_map.legend(loc="upper right")
     fig_4t_map.tight_layout()
-    plot_4t_map_path = outdir / "tandem_4t_power_map.png"
+    plot_4t_map_path = figures_dir / "tandem_4t_power_map.png"
     fig_4t_map.savefig(plot_4t_map_path, dpi=600)
     plt.close(fig_4t_map)
 
     # Save curve CSVs
     np.savetxt(
-        outdir / "tandem_jv_curve.csv",
+        csv_dir / "tandem_jv_curve.csv",
         np.column_stack([v_tandem, j_tandem]),
         delimiter=",",
         header="Voltage_V,CurrentDensity_mAcm2",
@@ -570,7 +596,7 @@ def main() -> None:
         fmt="%.8f",
     )
     np.savetxt(
-        outdir / "tandem_eqe_curve.csv",
+        csv_dir / "tandem_eqe_curve.csv",
         np.column_stack([wl_eqe_plot, eqe_top_plot, eqe_bottom_plot, eqe_tandem_plot]),
         delimiter=",",
         header=(
@@ -583,7 +609,7 @@ def main() -> None:
         fmt="%.8f",
     )
     save_metrics_csv(
-        outdir / "tandem_metrics.csv",
+        csv_dir / "tandem_metrics.csv",
         metrics_cdte_unfiltered,
         metrics_cdte_filtered,
         metrics_top,
@@ -621,9 +647,9 @@ def main() -> None:
     print(f"  {eqe_plot_path}")
     print(f"  {plot_4t_curves_path}")
     print(f"  {plot_4t_map_path}")
-    print(f"  {outdir / 'tandem_metrics.csv'}")
-    print(f"  {outdir / 'tandem_jv_curve.csv'}")
-    print(f"  {outdir / 'tandem_eqe_curve.csv'}")
+    print(f"  {csv_dir / 'tandem_metrics.csv'}")
+    print(f"  {csv_dir / 'tandem_jv_curve.csv'}")
+    print(f"  {csv_dir / 'tandem_eqe_curve.csv'}")
     print("")
     if tandem_status["jsc_source"] != "tandem_curve" or tandem_status["voc_source"] != "tandem_curve":
         print(
