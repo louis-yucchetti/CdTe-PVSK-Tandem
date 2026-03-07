@@ -579,6 +579,7 @@ def plot_tandem_metrics(
 ) -> None:
     temperatures_k, _ = extract_series(tandem_rows, "Tandem_2T", "voc")
     x_celsius = temperature_to_celsius(temperatures_k)
+    baseline_k = float(np.min(temperatures_k))
     series_map = {
         "Tandem 2T": {"cell": "Tandem_2T", "color": "#0f7f54", "ls": "-"},
         "Tandem 4T": {"cell": "Tandem_4T", "color": "#7d1f6f", "ls": "--"},
@@ -588,10 +589,12 @@ def plot_tandem_metrics(
     for ax, metric_name in zip(axes.flat, METRIC_META.keys()):
         for label, meta in series_map.items():
             _, values = extract_series(tandem_rows, meta["cell"], metric_name)
-            ax.plot(x_celsius, values, color=meta["color"], lw=2.0, ls=meta["ls"], label=label)
+            baseline_value = interpolate_series(temperatures_k, values, baseline_k)
+            rel_values = 100.0 * values / baseline_value
+            ax.plot(x_celsius, rel_values, color=meta["color"], lw=2.0, ls=meta["ls"], label=label)
             ax.scatter(
                 [target_temp_c],
-                [np.interp(target_temp_c, x_celsius, values)],
+                [np.interp(target_temp_c, x_celsius, rel_values)],
                 s=30,
                 color=meta["color"],
                 edgecolor="white",
@@ -599,13 +602,13 @@ def plot_tandem_metrics(
                 zorder=3,
             )
         add_reference_vertical(ax, target_temp_c)
-        ax.set_ylabel(METRIC_META[metric_name]["label"])
+        ax.set_ylabel(f"{METRIC_META[metric_name]['label']} rel. to 300 K (%)")
         style_axis(ax)
 
     axes[1, 0].set_xlabel("Temperature (°C)")
     axes[1, 1].set_xlabel("Temperature (°C)")
     axes[0, 0].legend(loc="best")
-    fig.suptitle("Constructed Tandem Metrics vs Temperature", y=0.99)
+    fig.suptitle("Tandem Normalized Thermal Drift", y=0.99)
     fig.tight_layout()
     fig.savefig(out_path, dpi=600)
     plt.close(fig)
@@ -1015,6 +1018,25 @@ def main() -> None:
         figures_dir / "subcell_metric_separation_vs_temperature.png",
         top_rows,
         bottom_rows,
+        args.target_temp_c,
+    )
+    tandem_2t_rows = [row for row in tandem_rows if row["cell"] == "Tandem_2T"]
+    tandem_4t_rows = [row for row in tandem_rows if row["cell"] == "Tandem_4T"]
+
+    plot_single_cell_metrics(
+        figures_dir / "tandem_2t_metrics_vs_temperature.png",
+        tandem_2t_rows,
+        "2T Tandem Metrics vs Temperature",
+        "#0f7f54",
+        "Tandem 2T",
+        args.target_temp_c,
+    )
+    plot_single_cell_metrics(
+        figures_dir / "tandem_4t_metrics_vs_temperature.png",
+        tandem_4t_rows,
+        "4T Equivalent Tandem Metrics vs Temperature",
+        "#7d1f6f",
+        "Tandem 4T",
         args.target_temp_c,
     )
     plot_tandem_metrics(figures_dir / "tandem_metrics_vs_temperature.png", tandem_rows, args.target_temp_c)
