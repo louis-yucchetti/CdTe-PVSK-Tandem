@@ -34,3 +34,4 @@ Mismatch ratio is derived from the filtered top-cell and bottom-cell `Jsc` value
 | Mismatch Ratio (Jtop/Jbottom) (ratio) | 3.8021 | 3.8195 | — | 0.0174 (0.457%, widens) |
 
 Mismatch ratio is derived from the filtered top-cell and bottom-cell `Jsc` values, so it is the same design constraint for both `2T` and equivalent `4T` reporting.
+

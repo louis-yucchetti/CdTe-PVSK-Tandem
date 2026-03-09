@@ -929,6 +929,62 @@ def plot_mismatch_drift(
     plt.close(fig)
 
 
+def plot_jtop_over_jbottom_vs_temperature(
+    out_path: Path,
+    drift_rows: Sequence[Dict[str, float | str]],
+    target_temp_c: float,
+) -> None:
+    temperatures_k = np.asarray([float(row["temperature_k"]) for row in drift_rows], dtype=float)
+    x_celsius = temperature_to_celsius(temperatures_k)
+    ratio = np.asarray([float(row["j_ratio_top_over_bottom"]) for row in drift_rows], dtype=float)
+
+    fig, ax = plt.subplots(figsize=(6.4, 4.2))
+    ax.plot(
+        x_celsius,
+        ratio,
+        color="#7d1f6f",
+        lw=2.2,
+        marker="o",
+        ms=4.4,
+        mfc="white",
+        mec="#7d1f6f",
+        label="PVSK top / CdTe bottom",
+    )
+    ax.scatter(
+        [target_temp_c],
+        [np.interp(target_temp_c, x_celsius, ratio)],
+        s=38,
+        color="#7d1f6f",
+        edgecolor="white",
+        linewidth=0.8,
+        zorder=3,
+    )
+    add_reference_vertical(ax, target_temp_c)
+    ax.set_xlabel("Temperature (°C)")
+    ax.set_ylabel("Jtop / Jbottom")
+    ax.set_title("Current Mismatch Ratio vs Temperature")
+    ax.text(
+        0.03,
+        0.05,
+        (
+            f"Top cell: perovskite\n"
+            f"Bottom cell: CdTe\n"
+            f"300 K: {ratio[0]:.4f}\n"
+            f"{target_temp_c:.2f} °C: {np.interp(target_temp_c, x_celsius, ratio):.4f}"
+        ),
+        transform=ax.transAxes,
+        va="bottom",
+        ha="left",
+        bbox={"facecolor": "white", "alpha": 0.88, "edgecolor": "0.7"},
+    )
+    style_axis(ax)
+    ax.legend(loc="upper left")
+
+    fig.tight_layout()
+    fig.savefig(out_path, dpi=600)
+    plt.close(fig)
+
+
 def write_summary(
     out_path: Path,
     top_rows: Sequence[Dict[str, float | str]],
@@ -1301,6 +1357,11 @@ def main() -> None:
         drift_rows,
         top_rows,
         bottom_rows,
+        args.target_temp_c,
+    )
+    plot_jtop_over_jbottom_vs_temperature(
+        figures_dir / "jtop_over_jbottom_vs_temperature.png",
+        drift_rows,
         args.target_temp_c,
     )
 
