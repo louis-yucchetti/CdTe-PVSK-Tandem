@@ -191,7 +191,7 @@ For the filtered CdTe cell, the relevant photon flux is the transmitted spectrum
 The optical tandem EQE shown by `tandem_analysis.py` is a constructed quantity:
 
 $$
-EQE_{tandem,opt}(\lambda) = \min\left(EQE_{top}(\lambda) + EQE_{bottom,filtered}(\lambda), 100\%\right)
+EQE_{tandem,opt}(\lambda) = \min\left( EQE_{top}(\lambda) + EQE_{bottom,filtered}(\lambda),\ 100 \right)
 $$
 
 This is useful for visualization, but it is not a direct electrical 2T measurement.
